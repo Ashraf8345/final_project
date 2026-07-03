@@ -1,6 +1,16 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+"use client"
+
+import { motion, useReducedMotion } from "framer-motion"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import {
+  ContributionGraph,
+  ContributionGraphBlock,
+  ContributionGraphCalendar,
+  type Activity,
+} from "@/components/ui/contribution-graph"
 import {
   GitForkIcon,
   GitHubIcon,
@@ -13,58 +23,55 @@ import { heroGitHubProfile } from "@/features/hero/lib/hero-data"
 import type { PinnedRepo } from "@/features/hero/lib/hero-data"
 
 /* -------------------------------------------------------------------------- */
-/*  Contribution Graph                                                        */
+/*  Contribution Data                                                         */
 /* -------------------------------------------------------------------------- */
 
-type ContributionLevel = 0 | 1 | 2 | 3 | 4
-
-const levelClassNames: Record<ContributionLevel, string> = {
-  0: "bg-muted/60",
-  1: "bg-accent/40",
-  2: "bg-accent/60",
-  3: "bg-accent/80",
-  4: "bg-accent",
-}
-
 /**
- * Deterministic contribution pattern — generates 52 × 7 cells.
- * Uses a simple hash so the pattern is stable across renders.
+ * Generates deterministic contribution data for the past year.
+ * Uses a hash function so the pattern is stable across renders.
  */
-function generateContributionPattern(): ContributionLevel[][] {
-  const weeks: ContributionLevel[][] = []
-  for (let w = 0; w < 52; w++) {
-    const week: ContributionLevel[] = []
-    for (let d = 0; d < 7; d++) {
-      const hash = ((w * 7 + d) * 2654435761) >>> 0
-      const level = (hash % 5) as ContributionLevel
-      week.push(level)
+function generateContributionData(): Activity[] {
+  const activities: Activity[] = []
+  const today = new Date()
+  const oneYearAgo = new Date(today)
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
+
+  for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
+    const dayOfYear = Math.floor(
+      (d.getTime() - new Date(d.getFullYear(), 0, 0).getTime()) / 86400000
+    )
+    const hash = ((dayOfYear * 2654435761) >>> 0) % 100
+    let level: number
+    let count: number
+
+    if (hash < 30) {
+      level = 0
+      count = 0
+    } else if (hash < 55) {
+      level = 1
+      count = 1 + (hash % 3)
+    } else if (hash < 75) {
+      level = 2
+      count = 4 + (hash % 4)
+    } else if (hash < 90) {
+      level = 3
+      count = 8 + (hash % 5)
+    } else {
+      level = 4
+      count = 13 + (hash % 8)
     }
-    weeks.push(week)
+
+    activities.push({
+      date: d.toISOString().split("T")[0],
+      count,
+      level,
+    })
   }
-  return weeks
+
+  return activities
 }
 
-const contributions = generateContributionPattern()
-
-function ContributionGraph() {
-  return (
-    <div className="space-y-2">
-      <p className="text-xs text-muted-foreground">1,247 contributions in the last year</p>
-      <div className="flex gap-[3px] overflow-hidden">
-        {contributions.map((week, wi) => (
-          <div key={wi} className="flex flex-col gap-[3px]">
-            {week.map((level, di) => (
-              <div
-                key={di}
-                className={`size-[10px] rounded-[2px] ${levelClassNames[level]}`}
-              />
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
+const contributionData = generateContributionData()
 
 /* -------------------------------------------------------------------------- */
 /*  Pinned Repo Card                                                          */
@@ -116,11 +123,24 @@ function StatItem({ label, value }: { label: string; value: number }) {
 
 export function GitHubPreview() {
   const profile = heroGitHubProfile
+  const prefersReducedMotion = useReducedMotion()
+
+  const cardVariants = {
+    hidden: { opacity: 0, x: prefersReducedMotion ? 0 : 40 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, ease: [0.25, 0.1, 0.25, 1] as const },
+    },
+  }
 
   return (
-    <div
+    <motion.div
       aria-hidden="true"
       className="relative w-full max-w-md select-none rounded-2xl border border-border/60 bg-card/80 shadow-xl shadow-black/[0.03] backdrop-blur-sm dark:shadow-black/[0.12]"
+      variants={cardVariants}
+      initial="hidden"
+      animate="visible"
     >
       {/* Header */}
       <div className="flex items-center gap-2 border-b border-border/40 px-5 py-3">
@@ -134,6 +154,10 @@ export function GitHubPreview() {
       <div className="space-y-4 p-5">
         <div className="flex items-start gap-4">
           <Avatar size="lg" className="size-14 ring-2 ring-border/40">
+            <AvatarImage
+              src={profile.avatarUrl}
+              alt={`${profile.displayName}'s avatar`}
+            />
             <AvatarFallback className="bg-muted text-base font-medium text-muted-foreground">
               {profile.initials}
             </AvatarFallback>
@@ -176,11 +200,29 @@ export function GitHubPreview() {
         </div>
       </div>
 
-      {/* Contribution Graph */}
-      <div className="border-t border-border/40 p-5">
-        <ContributionGraph />
-      </div>
-
+      {/* 
+        Contribution Graph 
+        <div className="border-t border-border/40 p-5">
+          <ContributionGraph
+            data={contributionData}
+            blockSize={9}
+            blockMargin={3}
+            blockRadius={2}
+            fontSize={0}
+            totalCount={contributionData.reduce((sum, a) => sum + a.count, 0)}
+          >
+            <ContributionGraphCalendar hideMonthLabels>
+              {({ activity, dayIndex, weekIndex }) => (
+                <ContributionGraphBlock
+                  activity={activity}
+                  dayIndex={dayIndex}
+                  weekIndex={weekIndex}
+                />
+              )}
+            </ContributionGraphCalendar>
+          </ContributionGraph>
+        </div>
+      */}
       {/* Generate Action */}
       <div className="border-t border-border/40 p-5">
         <Button variant="brand" size="lg" className="w-full" tabIndex={-1}>
@@ -196,6 +238,6 @@ export function GitHubPreview() {
           AI Ready
         </Badge>
       </div>
-    </div>
+    </motion.div>
   )
 }

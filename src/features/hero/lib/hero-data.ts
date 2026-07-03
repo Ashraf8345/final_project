@@ -13,6 +13,7 @@ export type GitHubProfileData = {
   username: string
   displayName: string
   initials: string
+  avatarUrl: string
   bio: string
   location: string
   website: string
@@ -38,39 +39,40 @@ export const heroActions: Readonly<Record<"primary" | "secondary", NavigationCta
 }
 
 export const heroGitHubProfile: GitHubProfileData = {
-  username: "sarahdev",
-  displayName: "Sarah Chen",
-  initials: "SC",
-  bio: "Full-stack engineer · Open source contributor · Building developer tools",
-  location: "San Francisco, CA",
-  website: "sarahchen.dev",
-  followers: 1284,
-  following: 342,
-  repositories: 47,
+  username: "yousefdawood7",
+  displayName: "Yousef Dawood",
+  initials: "YD",
+  avatarUrl: "https://avatars.githubusercontent.com/u/78578298?v=4",
+  bio: "React && Next.js",
+  location: "Egypt",
+  website: "yousefdawood.me",
+  followers: 18,
+  following: 15,
+  repositories: 21,
   pinnedRepos: [
     {
-      name: "react-form-engine",
-      description: "Type-safe form builder with validation, multi-step wizards, and accessible components",
+      name: "photoloop",
+      description: "A modern platform for sharing photos, loops, and stories with the people who matter most",
       language: "TypeScript",
       languageColor: "oklch(0.65 0.12 250)",
-      stars: 892,
-      forks: 134,
+      stars: 2,
+      forks: 0,
     },
     {
-      name: "cli-dashboard",
-      description: "Beautiful terminal dashboards with real-time data and interactive widgets",
-      language: "Rust",
-      languageColor: "oklch(0.62 0.12 30)",
-      stars: 2341,
-      forks: 187,
+      name: "Golden-Cart",
+      description: "Full-stack e-commerce application built with modern web technologies",
+      language: "TypeScript",
+      languageColor: "oklch(0.65 0.12 250)",
+      stars: 0,
+      forks: 0,
     },
     {
-      name: "ai-commit-review",
-      description: "AI-powered code review bot that catches bugs before they reach production",
-      language: "Python",
-      languageColor: "oklch(0.68 0.12 80)",
-      stars: 456,
-      forks: 52,
+      name: "simple-auth-system-demo",
+      description: "Authentication system demo with session management and secure login flows",
+      language: "TypeScript",
+      languageColor: "oklch(0.65 0.12 250)",
+      stars: 0,
+      forks: 0,
     },
   ],
 }

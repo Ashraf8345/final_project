@@ -1,4 +1,4 @@
-﻿# PortfolioGenie Development Roadmap
+# PortfolioGenie Development Roadmap
 
 Status Legend
 
@@ -122,7 +122,7 @@ Navigation is fully responsive.
 
 # Phase 3 - Hero
 
-Status: ⏳
+Status: ✅
 
 Goal
 
