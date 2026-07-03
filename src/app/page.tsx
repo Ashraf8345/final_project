@@ -1,65 +1,187 @@
-import Image from "next/image";
+﻿import { Logo } from "@/components/brand/logo"
+import { ThemeToggle } from "@/components/brand/theme-toggle"
+import { Container } from "@/components/layout/container"
+import { Grid } from "@/components/layout/grid"
+import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper"
+import { Section } from "@/components/layout/section"
+import { Stack } from "@/components/layout/stack"
+import { EmptyState } from "@/components/states/empty-state"
+import { ErrorState } from "@/components/states/error-state"
+import { LoadingState } from "@/components/states/loading-state"
+import { SkeletonCard, SkeletonGrid, SkeletonStat } from "@/components/states/skeletons"
+import { PageHeader } from "@/components/typography/page-header"
+import { SectionHeader } from "@/components/typography/section-header"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
+
+const installedComponents = [
+  "accordion",
+  "aspect-ratio",
+  "avatar",
+  "badge",
+  "button",
+  "card",
+  "dropdown-menu",
+  "input",
+  "navigation-menu",
+  "separator",
+  "sheet",
+  "skeleton",
+  "tabs",
+]
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main>
+      <Section spacing="xl" container={false}>
+        <Container className="space-y-10">
+          <Stack direction="horizontal" responsive align="center" justify="between" gap="md">
+            <Logo withTagline />
+            <ThemeToggle />
+          </Stack>
+          <PageHeader
+            eyebrow="Phase 1"
+            title="A reusable design foundation for the marketing site."
+            description="This preview exercises the shared layout, brand, typography, state, and utility primitives without building any Phase 2 or later sections."
+            actions={
+              <>
+                <Button variant="brand" size="lg">Primary action</Button>
+                <Button variant="subtle" size="lg">Secondary action</Button>
+              </>
+            }
+            meta="Built mobile-first with shadcn/ui primitives, semantic tokens, and shared layout abstractions."
+          />
+        </Container>
+      </Section>
+
+      <Section tone="muted" aria-labelledby="foundation-layout-heading">
+        <SectionHeader
+          id="foundation-layout-heading"
+          eyebrow="Layout"
+          title="Shared structure, not page-specific wrappers."
+          description="The marketing site can now compose consistent spacing, width constraints, stacks, and responsive grids from a single foundation layer."
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+        <Grid columns={3} className="mt-10">
+          <Card className="border-border/70">
+            <CardHeader>
+              <CardTitle>Container</CardTitle>
+              <CardDescription>Shared horizontal rhythm with width presets.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm text-muted-foreground">
+              <p>Use for page-level alignment and section internals.</p>
+              <Badge variant="outline">max-w-6xl</Badge>
+            </CardContent>
+          </Card>
+          <Card className="border-border/70">
+            <CardHeader>
+              <CardTitle>Section</CardTitle>
+              <CardDescription>Controls spacing and tonal surfaces.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm text-muted-foreground">
+              <p>Prevents random vertical spacing across the site.</p>
+              <Badge variant="outline">py-20 to py-32</Badge>
+            </CardContent>
+          </Card>
+          <Card className="border-border/70">
+            <CardHeader>
+              <CardTitle>Grid and Stack</CardTitle>
+              <CardDescription>Responsive composition primitives for sections.</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm text-muted-foreground">
+              <p>Use for cards, feature rows, pricing columns, and CTAs.</p>
+              <Badge variant="outline">8px spacing scale</Badge>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Section>
+
+      <Section aria-labelledby="foundation-typography-heading">
+        <Stack gap="xl">
+          <SectionHeader
+            id="foundation-typography-heading"
+            eyebrow="Typography"
+            title="Deliberate hierarchy for a premium developer SaaS."
+            description="Space Grotesk leads display moments, Manrope handles reading flow, and IBM Plex Mono stays reserved for labels and technical accents."
+          />
+          <MaxWidthWrapper size="content" className="space-y-6">
+            <p className="font-mono text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
+              Developer-first editorial system
+            </p>
+            <h3 className="font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
+              The design language stays minimal, spacious, and precise.
+            </h3>
+            <p className="text-lg leading-8 text-muted-foreground">
+              The foundation sets typography, tokens, and interaction rules once so later marketing sections inherit the same rhythm instead of each section inventing its own visual logic.
+            </p>
+          </MaxWidthWrapper>
+        </Stack>
+      </Section>
+
+      <Section tone="accent" aria-labelledby="foundation-states-heading">
+        <SectionHeader
+          id="foundation-states-heading"
+          eyebrow="States"
+          title="Empty, loading, and error patterns are ready before content sections land."
+          description="These states are intentionally generic so features, showcases, and pricing blocks can reuse them without duplication."
+        />
+        <Grid columns={3} className="mt-10">
+          <EmptyState
+            title="No showcase items yet"
+            description="When a section has no content, the user still gets direction instead of a blank region."
+            action={<Button variant="brand">Add content</Button>}
+          />
+          <ErrorState
+            description="This pattern keeps failure copy concise, specific, and paired with a single recovery path."
+            action={<Button variant="outline">Retry request</Button>}
+          />
+          <LoadingState
+            compact
+            title="Loading templates"
+            description="Skeletons preserve layout stability while content arrives."
+          />
+        </Grid>
+      </Section>
+
+      <Section aria-labelledby="foundation-skeletons-heading">
+        <Stack gap="xl">
+          <SectionHeader
+            id="foundation-skeletons-heading"
+            eyebrow="Skeletons"
+            title="Skeleton primitives match the same surfaces and spacing as the final UI."
+            description="That keeps loading states visually integrated instead of feeling like a disconnected fallback."
+          />
+          <Grid columns={3}>
+            <SkeletonCard />
+            <SkeletonCard />
+            <div className="space-y-6">
+              <SkeletonStat />
+              <SkeletonStat />
+            </div>
+          </Grid>
+          <Separator />
+          <Stack gap="md">
+            <p className="font-mono text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase">
+              Installed shadcn primitives for the marketing site
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {installedComponents.map((component) => (
+                <Badge key={component} variant="outline">
+                  {component}
+                </Badge>
+              ))}
+            </div>
+          </Stack>
+          <SkeletonGrid count={3} />
+        </Stack>
+      </Section>
+    </main>
+  )
 }
