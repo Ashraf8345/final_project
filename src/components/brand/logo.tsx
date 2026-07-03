@@ -1,4 +1,5 @@
-﻿import Link from "next/link"
+﻿import type { Route } from "next"
+import Link from "next/link"
 
 import { SparkIcon } from "@/components/brand/icons"
 import { cn } from "@/lib/utils"
@@ -19,7 +20,7 @@ const markClassNames: Record<LogoSize, string> = {
 
 interface LogoProps {
   className?: string
-  href?: string
+  href?: string | null
   size?: LogoSize
   withTagline?: boolean
 }
@@ -52,12 +53,16 @@ export function Logo({
   )
 
   if (!href) {
-    return <div data-slot="logo" className={cn("inline-flex items-center gap-3 text-foreground", className)}>{content}</div>
+    return (
+      <div data-slot="logo" className={cn("inline-flex items-center gap-3 text-foreground", className)}>
+        {content}
+      </div>
+    )
   }
 
   return (
     <Link
-      href={href}
+      href={href as Route}
       data-slot="logo"
       className={cn(
         "inline-flex items-center gap-3 text-foreground transition-opacity hover:opacity-85 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",

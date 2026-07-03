@@ -1,6 +1,7 @@
 ﻿import * as React from "react"
 
 import { Badge } from "@/components/ui/badge"
+import { bodyClassNames, headingClassNames } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
 interface PageHeaderProps extends React.HTMLAttributes<HTMLElement> {
@@ -28,15 +29,11 @@ export function PageHeader({
     >
       <div className="max-w-3xl space-y-4">
         {eyebrow ? <Badge variant="outline">{eyebrow}</Badge> : null}
-        <h1 className="font-heading text-4xl font-semibold tracking-tight text-balance text-foreground sm:text-5xl lg:text-6xl">
-          {title}
-        </h1>
-        <p className="max-w-2xl text-lg leading-8 text-balance text-muted-foreground sm:text-xl">
-          {description}
-        </p>
+        <h1 className={headingClassNames.h1}>{title}</h1>
+        <p className={cn(bodyClassNames.lead, "max-w-2xl")}>{description}</p>
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-3">{actions}</div> : null}
-      {meta ? <div className="text-sm text-muted-foreground">{meta}</div> : null}
+      {meta ? <div className={bodyClassNames.subtle}>{meta}</div> : null}
     </header>
   )
 }

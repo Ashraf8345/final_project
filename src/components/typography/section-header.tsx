@@ -1,6 +1,7 @@
 ﻿import * as React from "react"
 
 import { Badge } from "@/components/ui/badge"
+import { bodyClassNames, headingClassNames } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
 type HeaderAlign = "left" | "center"
@@ -35,13 +36,9 @@ export function SectionHeader({
     >
       {eyebrow ? <Badge variant="outline">{eyebrow}</Badge> : null}
       <div className="max-w-2xl space-y-3">
-        <h2 className="font-heading text-3xl font-semibold tracking-tight text-balance text-foreground sm:text-4xl">
-          {title}
-        </h2>
+        <h2 className={headingClassNames.h2}>{title}</h2>
         {description ? (
-          <p className="text-base leading-7 text-balance text-muted-foreground sm:text-lg">
-            {description}
-          </p>
+          <p className={cn(bodyClassNames.lead, "max-w-xl")}>{description}</p>
         ) : null}
       </div>
       {actions ? <div className="flex flex-wrap items-center gap-3">{actions}</div> : null}

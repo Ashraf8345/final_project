@@ -1,187 +1,82 @@
-﻿import { Logo } from "@/components/brand/logo"
-import { ThemeToggle } from "@/components/brand/theme-toggle"
-import { Container } from "@/components/layout/container"
+﻿import { MarketingLayout } from "@/features/marketing-shell/components/marketing-layout"
+import { PageLayout } from "@/features/marketing-shell/components/page-layout"
 import { Grid } from "@/components/layout/grid"
-import { MaxWidthWrapper } from "@/components/layout/max-width-wrapper"
 import { Section } from "@/components/layout/section"
-import { Stack } from "@/components/layout/stack"
 import { EmptyState } from "@/components/states/empty-state"
-import { ErrorState } from "@/components/states/error-state"
-import { LoadingState } from "@/components/states/loading-state"
-import { SkeletonCard, SkeletonGrid, SkeletonStat } from "@/components/states/skeletons"
 import { PageHeader } from "@/components/typography/page-header"
 import { SectionHeader } from "@/components/typography/section-header"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { marketingNavigationLinks } from "@/config/navigation"
 
-const installedComponents = [
-  "accordion",
-  "aspect-ratio",
-  "avatar",
-  "badge",
-  "button",
-  "card",
-  "dropdown-menu",
-  "input",
-  "navigation-menu",
-  "separator",
-  "sheet",
-  "skeleton",
-  "tabs",
-]
+const shellFeatures = [
+  {
+    title: "Typography system",
+    description: "Global UI, display, and monospace fonts are configured through next/font and reusable type utilities.",
+  },
+  {
+    title: "Config-driven navigation",
+    description: "Navbar, mobile menu, footer groups, and CTAs all read from shared configuration files.",
+  },
+  {
+    title: "Reusable layout wrappers",
+    description: "MarketingLayout and PageLayout give future pages a consistent shell without duplicating structure.",
+  },
+] as const
 
 export default function Home() {
   return (
-    <main>
-      <Section spacing="xl" container={false}>
-        <Container className="space-y-10">
-          <Stack direction="horizontal" responsive align="center" justify="between" gap="md">
-            <Logo withTagline />
-            <ThemeToggle />
-          </Stack>
+    <MarketingLayout>
+      <PageLayout>
+        <Section spacing="lg" container={false}>
           <PageHeader
-            eyebrow="Phase 1"
-            title="A reusable design foundation for the marketing site."
-            description="This preview exercises the shared layout, brand, typography, state, and utility primitives without building any Phase 2 or later sections."
+            eyebrow="Phase 2"
+            title="The reusable marketing shell is ready for future pages."
+            description="Navigation, typography, layout, and footer are now centralized so Phase 3 can focus on content instead of rebuilding the frame."
             actions={
-              <>
-                <Button variant="brand" size="lg">Primary action</Button>
-                <Button variant="subtle" size="lg">Secondary action</Button>
-              </>
+              <div className="flex flex-wrap items-center gap-2">
+                {marketingNavigationLinks.map((item) => (
+                  <Badge key={item.label} variant="outline">
+                    {item.label}
+                  </Badge>
+                ))}
+              </div>
             }
-            meta="Built mobile-first with shadcn/ui primitives, semantic tokens, and shared layout abstractions."
+            meta="This page intentionally stays shell-focused and does not introduce hero, features, pricing, or other later-phase sections."
           />
-        </Container>
-      </Section>
+        </Section>
 
-      <Section tone="muted" aria-labelledby="foundation-layout-heading">
-        <SectionHeader
-          id="foundation-layout-heading"
-          eyebrow="Layout"
-          title="Shared structure, not page-specific wrappers."
-          description="The marketing site can now compose consistent spacing, width constraints, stacks, and responsive grids from a single foundation layer."
-        />
-        <Grid columns={3} className="mt-10">
-          <Card className="border-border/70">
-            <CardHeader>
-              <CardTitle>Container</CardTitle>
-              <CardDescription>Shared horizontal rhythm with width presets.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-muted-foreground">
-              <p>Use for page-level alignment and section internals.</p>
-              <Badge variant="outline">max-w-6xl</Badge>
-            </CardContent>
-          </Card>
-          <Card className="border-border/70">
-            <CardHeader>
-              <CardTitle>Section</CardTitle>
-              <CardDescription>Controls spacing and tonal surfaces.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-muted-foreground">
-              <p>Prevents random vertical spacing across the site.</p>
-              <Badge variant="outline">py-20 to py-32</Badge>
-            </CardContent>
-          </Card>
-          <Card className="border-border/70">
-            <CardHeader>
-              <CardTitle>Grid and Stack</CardTitle>
-              <CardDescription>Responsive composition primitives for sections.</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3 text-sm text-muted-foreground">
-              <p>Use for cards, feature rows, pricing columns, and CTAs.</p>
-              <Badge variant="outline">8px spacing scale</Badge>
-            </CardContent>
-          </Card>
-        </Grid>
-      </Section>
-
-      <Section aria-labelledby="foundation-typography-heading">
-        <Stack gap="xl">
+        <Section tone="muted" spacing="lg" aria-labelledby="shell-foundations-heading">
           <SectionHeader
-            id="foundation-typography-heading"
-            eyebrow="Typography"
-            title="Deliberate hierarchy for a premium developer SaaS."
-            description="Space Grotesk leads display moments, Manrope handles reading flow, and IBM Plex Mono stays reserved for labels and technical accents."
+            id="shell-foundations-heading"
+            eyebrow="Foundations"
+            title="Every future marketing page can now inherit the same structure."
+            description="The shell is sticky, responsive, theme-aware, and typed from configuration."
           />
-          <MaxWidthWrapper size="content" className="space-y-6">
-            <p className="font-mono text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
-              Developer-first editorial system
-            </p>
-            <h3 className="font-heading text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
-              The design language stays minimal, spacious, and precise.
-            </h3>
-            <p className="text-lg leading-8 text-muted-foreground">
-              The foundation sets typography, tokens, and interaction rules once so later marketing sections inherit the same rhythm instead of each section inventing its own visual logic.
-            </p>
-          </MaxWidthWrapper>
-        </Stack>
-      </Section>
-
-      <Section tone="accent" aria-labelledby="foundation-states-heading">
-        <SectionHeader
-          id="foundation-states-heading"
-          eyebrow="States"
-          title="Empty, loading, and error patterns are ready before content sections land."
-          description="These states are intentionally generic so features, showcases, and pricing blocks can reuse them without duplication."
-        />
-        <Grid columns={3} className="mt-10">
-          <EmptyState
-            title="No showcase items yet"
-            description="When a section has no content, the user still gets direction instead of a blank region."
-            action={<Button variant="brand">Add content</Button>}
-          />
-          <ErrorState
-            description="This pattern keeps failure copy concise, specific, and paired with a single recovery path."
-            action={<Button variant="outline">Retry request</Button>}
-          />
-          <LoadingState
-            compact
-            title="Loading templates"
-            description="Skeletons preserve layout stability while content arrives."
-          />
-        </Grid>
-      </Section>
-
-      <Section aria-labelledby="foundation-skeletons-heading">
-        <Stack gap="xl">
-          <SectionHeader
-            id="foundation-skeletons-heading"
-            eyebrow="Skeletons"
-            title="Skeleton primitives match the same surfaces and spacing as the final UI."
-            description="That keeps loading states visually integrated instead of feeling like a disconnected fallback."
-          />
-          <Grid columns={3}>
-            <SkeletonCard />
-            <SkeletonCard />
-            <div className="space-y-6">
-              <SkeletonStat />
-              <SkeletonStat />
-            </div>
+          <Grid columns={3} className="mt-10">
+            {shellFeatures.map((feature) => (
+              <Card key={feature.title} className="border-border/70 bg-card/90">
+                <CardHeader>
+                  <CardTitle>{feature.title}</CardTitle>
+                  <CardDescription>{feature.description}</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <Button variant="subtle" size="lg">Reusable primitive</Button>
+                </CardContent>
+              </Card>
+            ))}
           </Grid>
-          <Separator />
-          <Stack gap="md">
-            <p className="font-mono text-xs font-medium tracking-[0.18em] text-muted-foreground uppercase">
-              Installed shadcn primitives for the marketing site
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {installedComponents.map((component) => (
-                <Badge key={component} variant="outline">
-                  {component}
-                </Badge>
-              ))}
-            </div>
-          </Stack>
-          <SkeletonGrid count={3} />
-        </Stack>
-      </Section>
-    </main>
+        </Section>
+
+        <Section spacing="lg" aria-labelledby="shell-placeholder-heading">
+          <EmptyState
+            title="Phase 3 content has not started"
+            description="The application shell is complete. Hero and marketing sections can now be added inside this layout without reworking navigation, typography, or footer architecture."
+            action={<Button variant="brand">Ready for Hero</Button>}
+          />
+        </Section>
+      </PageLayout>
+    </MarketingLayout>
   )
 }
