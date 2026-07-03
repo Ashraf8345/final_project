@@ -200,29 +200,27 @@ export function GitHubPreview() {
         </div>
       </div>
 
-      {/* 
-        Contribution Graph 
-        <div className="border-t border-border/40 p-5">
-          <ContributionGraph
-            data={contributionData}
-            blockSize={9}
-            blockMargin={3}
-            blockRadius={2}
-            fontSize={0}
-            totalCount={contributionData.reduce((sum, a) => sum + a.count, 0)}
-          >
-            <ContributionGraphCalendar hideMonthLabels>
-              {({ activity, dayIndex, weekIndex }) => (
-                <ContributionGraphBlock
-                  activity={activity}
-                  dayIndex={dayIndex}
-                  weekIndex={weekIndex}
-                />
-              )}
-            </ContributionGraphCalendar>
-          </ContributionGraph>
-        </div>
-      */}
+      {/* Contribution Graph */}
+      <div className="border-t border-border/40 p-5">
+        <ContributionGraph
+          data={contributionData}
+          blockSize={9}
+          blockMargin={3}
+          blockRadius={2}
+          fontSize={0}
+          totalCount={contributionData.reduce((sum, a) => sum + a.count, 0)}
+        >
+          <ContributionGraphCalendar hideMonthLabels>
+            {({ activity, dayIndex, weekIndex }) => (
+              <ContributionGraphBlock
+                activity={activity}
+                dayIndex={dayIndex}
+                weekIndex={weekIndex}
+              />
+            )}
+          </ContributionGraphCalendar>
+        </ContributionGraph>
+      </div>
       {/* Generate Action */}
       <div className="border-t border-border/40 p-5">
         <Button variant="brand" size="lg" className="w-full" tabIndex={-1}>
