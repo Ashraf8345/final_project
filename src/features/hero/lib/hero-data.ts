@@ -59,14 +59,6 @@ export const heroGitHubProfile: GitHubProfileData = {
       forks: 0,
     },
     {
-      name: "Golden-Cart",
-      description: "Full-stack e-commerce application built with modern web technologies",
-      language: "TypeScript",
-      languageColor: "oklch(0.65 0.12 250)",
-      stars: 0,
-      forks: 0,
-    },
-    {
       name: "simple-auth-system-demo",
       description: "Authentication system demo with session management and secure login flows",
       language: "TypeScript",
