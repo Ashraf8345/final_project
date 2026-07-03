@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
+import { motion, useReducedMotion } from "framer-motion"
+
 import { Container } from "@/components/layout/container"
 import { Section } from "@/components/layout/section"
 import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import {
   GitHubIcon,
   SparklesIcon,
@@ -16,6 +17,8 @@ import { headingClassNames, bodyClassNames } from "@/lib/typography"
 import { cn } from "@/lib/utils"
 
 export function CoreFeatures() {
+  const [activeTab, setActiveTab] = React.useState("github")
+  const prefersReducedMotion = useReducedMotion()
 
   const categories = [
     {
@@ -92,7 +95,7 @@ export function CoreFeatures() {
       title: "Fully Customize Layouts",
       description: "Rearrange sections, toggle information, customize accent palettes, and tweak layouts using modular block controls.",
       features: [
-        "curated design systems (Vercel, Linear, Stripe)",
+        "Curated design systems (Vercel, Linear, Stripe)",
         "Section toggle (experience, education, repositories)",
         "Social links custom arrangement",
       ],
@@ -148,6 +151,8 @@ export function CoreFeatures() {
     },
   ]
 
+  const activeCategory = categories.find((cat) => cat.id === activeTab) || categories[0]
+
   return (
     <Section id="core-features" spacing="xl" tone="default">
       <Container size="wide" className="space-y-16">
@@ -163,39 +168,64 @@ export function CoreFeatures() {
           </p>
         </div>
 
-        <Tabs defaultValue="github" className="w-full space-y-10">
-          <TabsList variant="line" className="w-full justify-center flex flex-wrap border-b border-border/40 pb-px h-auto gap-2">
-            {categories.map((cat) => (
-              <TabsTrigger key={cat.id} value={cat.id} className="gap-2 pb-3 pt-2 text-sm rounded-none border-b-2 border-transparent data-[state=active]:border-foreground bg-transparent shadow-none">
-                {cat.icon}
-                <span>{cat.label}</span>
-              </TabsTrigger>
-            ))}
-          </TabsList>
+        <div className="w-full space-y-10">
+          {/* Animated Tabs list without ugly borders */}
+          <div className="flex justify-center">
+            <div className="flex gap-1 p-1 bg-muted/40 dark:bg-muted/20 rounded-full relative z-0">
+              {categories.map((cat) => {
+                const isActive = activeTab === cat.id
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => setActiveTab(cat.id)}
+                    className={cn(
+                      "relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                    )}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="active-feature-tab"
+                        className="absolute inset-0 bg-background dark:bg-zinc-800 shadow-sm rounded-full -z-10"
+                        transition={{ type: "spring", bounce: 0.15, duration: 0.35 }}
+                      />
+                    )}
+                    {cat.icon}
+                    <span>{cat.label}</span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
 
-          {categories.map((cat) => (
-            <TabsContent key={cat.id} value={cat.id} className="grid gap-8 items-center lg:grid-cols-2 mt-0 focus-visible:outline-none">
-              {/* Feature Content */}
-              <div className="space-y-6">
-                <h3 className={cn(headingClassNames.h2)}>{cat.title}</h3>
-                <p className={cn(bodyClassNames.base)}>{cat.description}</p>
-                <ul className="space-y-3">
-                  {cat.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2.5 text-sm">
-                      <div className="mt-1 size-4 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
-                        <CheckIcon className="size-2.5" />
-                      </div>
-                      <span className="text-muted-foreground">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* Animated Tab Content */}
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="grid gap-8 items-center lg:grid-cols-2 mt-0 focus-visible:outline-none"
+          >
+            {/* Feature Content */}
+            <div className="space-y-6">
+              <h3 className={cn(headingClassNames.h2)}>{activeCategory.title}</h3>
+              <p className={cn(bodyClassNames.base)}>{activeCategory.description}</p>
+              <ul className="space-y-3">
+                {activeCategory.features.map((feature, i) => (
+                  <li key={i} className="flex items-start gap-2.5 text-sm">
+                    <div className="mt-1 size-4 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 shrink-0">
+                      <CheckIcon className="size-2.5" />
+                    </div>
+                    <span className="text-muted-foreground">{feature}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-              {/* Feature Interactive Mock */}
-              <div>{cat.mock}</div>
-            </TabsContent>
-          ))}
-        </Tabs>
+            {/* Feature Interactive Mock */}
+            <div>{activeCategory.mock}</div>
+          </motion.div>
+        </div>
       </Container>
     </Section>
   )
