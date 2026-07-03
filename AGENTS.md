@@ -1,4 +1,4 @@
-# AGENTS.md
+﻿# AGENTS.md
 
 # PortfolioGenie
 
@@ -43,7 +43,7 @@ This project uses Convex.
 
 Before modifying any Convex code, always read
 
-convex/\_generated/ai/guidelines.md
+`convex/_generated/ai/guidelines.md`
 
 Those guidelines override any prior knowledge about Convex APIs and patterns.
 
