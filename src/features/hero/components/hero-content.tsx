@@ -43,7 +43,7 @@ export function HeroContent() {
       </motion.div>
 
       <div className="max-w-2xl space-y-6">
-        <motion.h1 variants={fadeUp} className={cn(headingClassNames.display, "max-w-[18ch]")}>
+        <motion.h1 variants={fadeUp} className={cn(headingClassNames.display, 'text-6xl!',"max-w-[18ch]")}>
           {heroHeadline}
         </motion.h1>
         <motion.p variants={fadeUp} className={cn(bodyClassNames.lead, "max-w-xl lg:max-w-lg")}>
