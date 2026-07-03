@@ -6,12 +6,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
-  ContributionGraph,
-  ContributionGraphBlock,
-  ContributionGraphCalendar,
-  type Activity,
-} from "@/components/ui/contribution-graph"
-import {
   GitForkIcon,
   GitHubIcon,
   LinkIcon,
@@ -21,57 +15,6 @@ import {
 } from "@/components/ui/icons"
 import { heroGitHubProfile } from "@/features/hero/lib/hero-data"
 import type { PinnedRepo } from "@/features/hero/lib/hero-data"
-
-/* -------------------------------------------------------------------------- */
-/*  Contribution Data                                                         */
-/* -------------------------------------------------------------------------- */
-
-/**
- * Generates deterministic contribution data for the past year.
- * Uses a hash function so the pattern is stable across renders.
- */
-function generateContributionData(): Activity[] {
-  const activities: Activity[] = []
-  const today = new Date()
-  const oneYearAgo = new Date(today)
-  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1)
-
-  for (let d = new Date(oneYearAgo); d <= today; d.setDate(d.getDate() + 1)) {
-    const dayOfYear = Math.floor(
-      (d.getTime() - new Date(d.getFullYear(), 0, 0).getTime()) / 86400000
-    )
-    const hash = ((dayOfYear * 2654435761) >>> 0) % 100
-    let level: number
-    let count: number
-
-    if (hash < 30) {
-      level = 0
-      count = 0
-    } else if (hash < 55) {
-      level = 1
-      count = 1 + (hash % 3)
-    } else if (hash < 75) {
-      level = 2
-      count = 4 + (hash % 4)
-    } else if (hash < 90) {
-      level = 3
-      count = 8 + (hash % 5)
-    } else {
-      level = 4
-      count = 13 + (hash % 8)
-    }
-
-    activities.push({
-      date: d.toISOString().split("T")[0],
-      count,
-      level,
-    })
-  }
-
-  return activities
-}
-
-const contributionData = generateContributionData()
 
 /* -------------------------------------------------------------------------- */
 /*  Pinned Repo Card                                                          */
@@ -200,27 +143,6 @@ export function GitHubPreview() {
         </div>
       </div>
 
-      {/* Contribution Graph */}
-      <div className="border-t border-border/40 p-5">
-        <ContributionGraph
-          data={contributionData}
-          blockSize={9}
-          blockMargin={3}
-          blockRadius={2}
-          fontSize={0}
-          totalCount={contributionData.reduce((sum, a) => sum + a.count, 0)}
-        >
-          <ContributionGraphCalendar hideMonthLabels>
-            {({ activity, dayIndex, weekIndex }) => (
-              <ContributionGraphBlock
-                activity={activity}
-                dayIndex={dayIndex}
-                weekIndex={weekIndex}
-              />
-            )}
-          </ContributionGraphCalendar>
-        </ContributionGraph>
-      </div>
       {/* Generate Action */}
       <div className="border-t border-border/40 p-5">
         <Button variant="brand" size="lg" className="w-full" tabIndex={-1}>
