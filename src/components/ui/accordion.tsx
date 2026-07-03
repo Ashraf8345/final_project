@@ -1,9 +1,9 @@
 ﻿"use client"
 
 import * as React from "react"
-import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
+import * as AccordionPrimitive from "@radix-ui/react-accordion"
 
-import { ChevronDownIcon, ChevronUpIcon } from "@/components/ui/icons"
+import { ChevronDownIcon } from "@/components/ui/icons"
 import { cn } from "@/lib/utils"
 
 function Accordion({
@@ -54,32 +54,46 @@ function AccordionTrigger({
     <AccordionPrimitive.Trigger
       data-slot="accordion-trigger"
       className={cn(
-        "group/accordion-trigger flex flex-1 items-center justify-between gap-4 py-4 text-left text-sm font-medium transition-all outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50",
+        "group/accordion-trigger flex flex-1 items-center justify-between gap-4 py-4 text-left text-sm font-medium transition-all outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180",
         className
       )}
       {...props}
     >
       <span>{children}</span>
-      <ChevronDownIcon data-slot="accordion-trigger-icon" className="pointer-events-none shrink-0 group-aria-expanded/accordion-trigger:hidden" />
-      <ChevronUpIcon data-slot="accordion-trigger-icon" className="pointer-events-none hidden shrink-0 group-aria-expanded/accordion-trigger:inline" />
+      <ChevronDownIcon
+        data-slot="accordion-trigger-icon"
+        className="pointer-events-none shrink-0 transition-transform duration-200"
+      />
     </AccordionPrimitive.Trigger>
   )
 }
 
-function AccordionPanel({
+function AccordionContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof AccordionPrimitive.Panel>) {
+}: React.ComponentProps<typeof AccordionPrimitive.Content>) {
   return (
-    <AccordionPrimitive.Panel
-      data-slot="accordion-panel"
-      className={cn("overflow-hidden text-sm text-muted-foreground", className)}
+    <AccordionPrimitive.Content
+      data-slot="accordion-content"
+      className={cn(
+        "overflow-hidden text-sm text-muted-foreground data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down",
+        className
+      )}
       {...props}
     >
       <div className="pb-4 pt-0">{children}</div>
-    </AccordionPrimitive.Panel>
+    </AccordionPrimitive.Content>
   )
 }
 
-export { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionPanel }
+const AccordionPanel = AccordionContent
+
+export {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+  AccordionPanel,
+}

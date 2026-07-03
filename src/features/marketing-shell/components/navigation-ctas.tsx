@@ -14,22 +14,16 @@ interface NavigationCtasProps {
 export function NavigationCtas({ className, stacked = false }: NavigationCtasProps) {
   return (
     <div className={cn("flex items-center gap-3", stacked && "flex-col items-stretch", className)}>
-      <Button
-        render={<Link href={marketingNavigationCtas.secondary.href as Route} />}
-        variant="ghost"
-        size="lg"
-        className={cn(stacked && "w-full justify-center")}
-      >
-        {marketingNavigationCtas.secondary.label}
+      <Button asChild variant="ghost" size="lg" className={cn(stacked && "w-full justify-center")}>
+        <Link href={marketingNavigationCtas.secondary.href as Route}>
+          {marketingNavigationCtas.secondary.label}
+        </Link>
       </Button>
-      <Button
-        render={<Link href={marketingNavigationCtas.primary.href as Route} />}
-        variant="brand"
-        size="lg"
-        className={cn(stacked && "w-full justify-center")}
-      >
-        {marketingNavigationCtas.primary.label}
-        <ArrowUpRightIcon className="size-4" />
+      <Button asChild variant="brand" size="lg" className={cn(stacked && "w-full justify-center")}>
+        <Link href={marketingNavigationCtas.primary.href as Route}>
+          {marketingNavigationCtas.primary.label}
+          <ArrowUpRightIcon className="size-4" />
+        </Link>
       </Button>
     </div>
   )

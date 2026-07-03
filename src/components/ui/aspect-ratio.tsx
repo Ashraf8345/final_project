@@ -1,19 +1,18 @@
+﻿"use client"
+
+import * as React from "react"
+import * as AspectRatioPrimitive from "@radix-ui/react-aspect-ratio"
+
 import { cn } from "@/lib/utils"
 
 function AspectRatio({
-  ratio,
   className,
   ...props
-}: React.ComponentProps<"div"> & { ratio: number }) {
+}: React.ComponentProps<typeof AspectRatioPrimitive.Root>) {
   return (
-    <div
+    <AspectRatioPrimitive.Root
       data-slot="aspect-ratio"
-      style={
-        {
-          "--ratio": ratio,
-        } as React.CSSProperties
-      }
-      className={cn("relative aspect-(--ratio)", className)}
+      className={cn("relative overflow-hidden", className)}
       {...props}
     />
   )
