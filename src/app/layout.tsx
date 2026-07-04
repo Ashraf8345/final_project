@@ -1,26 +1,31 @@
-import type { Metadata } from "next"
+import type { Metadata } from "next";
 
-import { ThemeProvider } from "@/components/providers/theme-provider"
-import { fontVariables } from "@/lib/fonts"
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
+import { fontVariables } from "@/lib/fonts";
 
-import "./globals.css"
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "PortfolioGenie",
-    template: "%s | PortfolioGenie",
+    default: "Devora",
+    template: "%s | Devora",
   },
   description:
-    "PortfolioGenie helps developers turn their GitHub profile into a polished portfolio, resume, and personal brand.",
-}
+    "Devora helps developers turn their GitHub profile into a polished portfolio, resume, and personal brand.",
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${fontVariables} h-full overflow-x-hidden scroll-smooth antialiased`}>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      className={`${fontVariables} h-full overflow-x-hidden scroll-smooth antialiased`}
+    >
       <body className="min-h-full overflow-x-hidden font-sans text-foreground">
         <a
           href="#main-content"
@@ -28,8 +33,10 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <ConvexClientProvider>{children}</ConvexClientProvider>
+        </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
