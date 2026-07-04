@@ -138,8 +138,16 @@
   body {
     @apply min-h-screen bg-background text-foreground;
     background-image:
-      radial-gradient(circle at top, color-mix(in oklch, var(--accent), transparent 78%) 0%, transparent 34%),
-      linear-gradient(180deg, color-mix(in oklch, var(--background), white 5%) 0%, var(--background) 100%);
+      radial-gradient(
+        circle at top,
+        color-mix(in oklch, var(--accent), transparent 78%) 0%,
+        transparent 34%
+      ),
+      linear-gradient(
+        180deg,
+        color-mix(in oklch, var(--background), white 5%) 0%,
+        var(--background) 100%
+      );
   }
 
   main {
@@ -172,4 +180,12 @@
   }
 }
 
+iframe {
+  /* For Fixing Google's one tap styles issues on dark mode */
+  color-scheme: auto;
+}
 
+/* To Fix Google's Unwanted Horizontal Scrollbar */
+#g_a11y_announcement {
+  inset-inline-start: -10000px !important;
+}
