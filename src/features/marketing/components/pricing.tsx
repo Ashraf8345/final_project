@@ -133,7 +133,7 @@ export function Pricing() {
               )}
             >
               {tier.badge && (
-                <div className="absolute -top-3 left-8">
+                <div className="absolute -top-3 left-6">
                   <Badge className="bg-foreground text-background text-[10px] font-medium px-3 py-0.5 shadow-sm">
                     {tier.badge}
                   </Badge>
