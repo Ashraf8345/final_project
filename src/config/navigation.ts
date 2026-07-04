@@ -1,4 +1,4 @@
-﻿export type AppHref = string
+export type AppHref = string
 
 export type NavigationLink = {
   label: string
@@ -17,7 +17,6 @@ export const marketingNavigationLinks: readonly NavigationLink[] = [
   { label: "Templates", href: "/#templates" },
   { label: "Pricing", href: "/pricing" },
   { label: "FAQ", href: "/#faq" },
-  { label: "Blog", href: "/blog" },
 ]
 
 export const marketingNavigationCtas: Readonly<Record<"primary" | "secondary", NavigationCta>> = {

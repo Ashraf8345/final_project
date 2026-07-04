@@ -1,4 +1,4 @@
-﻿import type { AppHref } from "@/config/navigation"
+import type { AppHref } from "@/config/navigation"
 
 export type FooterLink = {
   label: string
@@ -25,7 +25,6 @@ export const footerGroups: readonly FooterGroup[] = [
   {
     title: "Resources",
     links: [
-      { label: "Blog", href: "/blog" },
       { label: "Documentation", href: "/docs" },
       { label: "Changelog", href: "/changelog" },
       { label: "Help Center", href: "/help" },

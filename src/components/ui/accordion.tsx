@@ -1,4 +1,4 @@
-﻿"use client"
+"use client"
 
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
@@ -62,7 +62,7 @@ function AccordionTrigger({
       <span>{children}</span>
       <ChevronDownIcon
         data-slot="accordion-trigger-icon"
-        className="pointer-events-none shrink-0 transition-transform duration-200"
+        className="size-4 pointer-events-none shrink-0 transition-transform duration-200"
       />
     </AccordionPrimitive.Trigger>
   )
