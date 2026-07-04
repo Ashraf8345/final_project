@@ -1,4 +1,4 @@
-# PortfolioGenie — Development Roadmap
+# Devora — Development Roadmap
 
 > Product feature definitions live in **docs/PRODUCT_SPEC.md**.
 > Engineering rules and coding standards live in **AGENTS.md**.
@@ -19,11 +19,11 @@
 
 # Vision
 
-PortfolioGenie is a premium AI-powered SaaS that enables developers to transform their GitHub profile into a professional portfolio, resume, and personal brand.
+Devora is a premium AI-powered SaaS that enables developers to transform their GitHub profile into a professional portfolio, resume, and personal brand.
 
 The MVP focuses on helping developers launch a recruiter-ready portfolio in minutes.
 
-Future versions will expand PortfolioGenie into an AI-powered career platform for software engineers.
+Future versions will expand Devora into an AI-powered career platform for software engineers.
 
 ---
 
@@ -45,7 +45,7 @@ Every phase must:
 
 # Core User Journey
 
-1. Discover PortfolioGenie.
+1. Discover Devora.
 2. Sign in.
 3. Connect GitHub.
 4. Import repositories.
@@ -550,7 +550,7 @@ Ready for launch.
 
 # 🚀 Public Launch
 
-PortfolioGenie is publicly available.
+Devora is publicly available.
 
 ---
 

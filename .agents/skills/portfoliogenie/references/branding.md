@@ -1,6 +1,6 @@
-# PortfolioGenie Brand
+# Devora Brand
 
-PortfolioGenie is a premium AI SaaS for developers.
+Devora is a premium AI SaaS for developers.
 
 Core values
 

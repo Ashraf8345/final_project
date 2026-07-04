@@ -1,6 +1,6 @@
-# PortfolioGenie — Product Specification
+# Devora — Product Specification
 
-> Single source of truth for the PortfolioGenie product.
+> Single source of truth for the Devora product.
 >
 > Development roadmap: ../PLANS.md
 >
@@ -10,9 +10,9 @@
 
 # Product Overview
 
-PortfolioGenie is a premium AI-powered SaaS that enables developers to transform their GitHub profile into a professional portfolio, resume, cover letter, and recruiter-ready personal brand.
+Devora is a premium AI-powered SaaS that enables developers to transform their GitHub profile into a professional portfolio, resume, cover letter, and recruiter-ready personal brand.
 
-Instead of spending hours designing websites or writing content from scratch, developers connect their GitHub account and PortfolioGenie automatically analyzes repositories, contributions, technologies, and project history to generate production-ready career assets.
+Instead of spending hours designing websites or writing content from scratch, developers connect their GitHub account and Devora automatically analyzes repositories, contributions, technologies, and project history to generate production-ready career assets.
 
 The platform combines GitHub data, AI, beautiful templates, and one-click publishing into a single seamless experience.
 
@@ -24,7 +24,7 @@ Build the easiest and most trusted platform for developers to showcase their pro
 
 The initial product focuses on helping developers generate high-quality portfolios from GitHub.
 
-Long term, PortfolioGenie will evolve into an AI-powered career platform that helps software engineers build their online presence, improve employability, and manage their professional brand.
+Long term, Devora will evolve into an AI-powered career platform that helps software engineers build their online presence, improve employability, and manage their professional brand.
 
 ---
 
@@ -44,13 +44,13 @@ Common pain points include:
 
 These problems slow down job applications and make talented developers appear less experienced than they actually are.
 
-PortfolioGenie solves this by transforming existing GitHub work into polished, recruiter-friendly assets.
+Devora solves this by transforming existing GitHub work into polished, recruiter-friendly assets.
 
 ---
 
 # Core Value Proposition
 
-PortfolioGenie enables developers to:
+Devora enables developers to:
 
 - Connect GitHub.
 - Let AI analyze repositories.
@@ -205,7 +205,7 @@ These features are reserved for future releases.
 
 # Non Goals
 
-PortfolioGenie is not intended to:
+Devora is not intended to:
 
 - Replace GitHub.
 - Replace LinkedIn.
@@ -221,7 +221,7 @@ Its primary purpose is helping developers build and maintain a professional onli
 
 # Core User Journey
 
-1. Discover PortfolioGenie.
+1. Discover Devora.
 2. Create an account.
 3. Connect GitHub.
 4. Import repositories.
@@ -239,7 +239,7 @@ Every product feature should improve one or more steps in this journey.
 
 # Product Principles
 
-PortfolioGenie should always prioritize:
+Devora should always prioritize:
 
 - Simplicity over complexity.
 - Automation over manual work.
@@ -256,7 +256,7 @@ Every new feature should support these principles.
 
 # Product Modules
 
-The following modules make up the PortfolioGenie platform.
+The following modules make up the Devora platform.
 
 Each module is independently developed while integrating seamlessly with the others.
 
@@ -332,7 +332,7 @@ Users can:
 
 # GitHub Integration
 
-GitHub is the primary data source for PortfolioGenie.
+GitHub is the primary data source for Devora.
 
 ---
 
@@ -441,7 +441,7 @@ Enterprise
 
 The AI Analysis Engine transforms raw GitHub activity into structured professional content.
 
-This module powers every AI capability inside PortfolioGenie.
+This module powers every AI capability inside Devora.
 
 ---
 
@@ -912,7 +912,7 @@ Formats
 
 # Portfolio Templates
 
-PortfolioGenie ships with production-quality templates optimized for different developer audiences.
+Devora ships with production-quality templates optimized for different developer audiences.
 
 ---
 
@@ -1033,7 +1033,7 @@ Publishing transforms a draft portfolio into a publicly accessible website.
 
 Default
 
-username.portfoliogenie.dev
+username.Devora.dev
 
 Premium
 
@@ -1241,7 +1241,7 @@ Support
 
 # Billing
 
-PortfolioGenie uses Stripe for subscriptions.
+Devora uses Stripe for subscriptions.
 
 ---
 
@@ -1259,7 +1259,7 @@ Features
 - Portfolio Generation
 - Resume Generation
 - PDF Export
-- PortfolioGenie Branding
+- Devora Branding
 
 ---
 
@@ -1499,7 +1499,7 @@ Privacy
 - Users own their data.
 - Users can export their data.
 - Users can permanently delete their account.
-- PortfolioGenie never sells user data.
+- Devora never sells user data.
 
 ---
 
@@ -1567,7 +1567,7 @@ Public Launch
 
 # Product Acceptance Criteria
 
-PortfolioGenie is considered ready for public launch when:
+Devora is considered ready for public launch when:
 
 - Authentication is fully functional.
 - GitHub import succeeds reliably.

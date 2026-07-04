@@ -1,9 +1,9 @@
-﻿import type { Route } from "next"
-import Link from "next/link"
+﻿import type { Route } from "next";
+import Link from "next/link";
 
-import { marketingNavigationLinks } from "@/config/navigation"
-import { NavigationCtas } from "@/features/marketing-shell/components/navigation-ctas"
-import { MenuIcon } from "@/components/ui/icons"
+import { marketingNavigationLinks } from "@/config/navigation";
+import { NavigationCtas } from "@/features/marketing-shell/components/navigation-ctas";
+import { MenuIcon } from "@/components/ui/icons";
 import {
   Sheet,
   SheetClose,
@@ -12,11 +12,11 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import { Button, buttonVariants } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { utilityClassNames } from "@/lib/typography"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/sheet";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { utilityClassNames } from "@/lib/typography";
+import { cn } from "@/lib/utils";
 
 export function MobileNavigation() {
   return (
@@ -37,7 +37,7 @@ export function MobileNavigation() {
           className="w-full max-w-sm border-border/60 bg-background/96 px-6 py-5"
         >
           <SheetHeader className="px-0 pb-6">
-            <SheetTitle>Navigate PortfolioGenie</SheetTitle>
+            <SheetTitle>Navigate Devora</SheetTitle>
             <SheetDescription>
               Explore the product, templates, pricing, and resources.
             </SheetDescription>
@@ -51,7 +51,7 @@ export function MobileNavigation() {
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "lg" }),
                       "w-full justify-start rounded-2xl px-4 text-base",
-                      utilityClassNames.link
+                      utilityClassNames.link,
                     )}
                   >
                     {item.label}
@@ -65,5 +65,5 @@ export function MobileNavigation() {
         </SheetContent>
       </Sheet>
     </div>
-  )
+  );
 }

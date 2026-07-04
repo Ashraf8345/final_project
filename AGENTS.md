@@ -1,8 +1,8 @@
 ﻿# AGENTS.md
 
-# PortfolioGenie
+# Devora
 
-PortfolioGenie is a production-ready AI-powered SaaS that helps developers build beautiful portfolios, resumes, and personal branding assets from their GitHub profile.
+Devora is a production-ready AI-powered SaaS that helps developers build beautiful portfolios, resumes, and personal branding assets from their GitHub profile.
 
 The goal is to build a real SaaS product rather than a demo application.
 
@@ -59,7 +59,7 @@ Always use the most relevant installed Skills before implementing features.
 
 Examples include
 
-- portfoliogenie
+- Devora
 - shadcn-workflow
 - better-auth-best-practices
 - better-auth-security-best-practices
