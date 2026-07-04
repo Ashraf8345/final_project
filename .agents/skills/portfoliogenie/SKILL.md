@@ -1,7 +1,7 @@
 ---
-name: portfoliogenie
+name: Devora
 description: |
-  Use this skill whenever building, modifying, or designing PortfolioGenie.
+  Use this skill whenever building, modifying, or designing Devora.
 
   Applies to:
   - Landing pages
@@ -19,9 +19,9 @@ description: |
   - shadcn/ui implementation
 ---
 
-# PortfolioGenie
+# Devora
 
-PortfolioGenie is a premium AI-powered SaaS for developers.
+Devora is a premium AI-powered SaaS for developers.
 
 Its purpose is to help developers build professional portfolios, resumes,
 cover letters, and recruiter-ready personal branding by analyzing their GitHub profile.
