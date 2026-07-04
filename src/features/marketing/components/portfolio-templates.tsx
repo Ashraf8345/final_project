@@ -124,7 +124,7 @@ export function PortfolioTemplates() {
   };
 
   return (
-    <Section id="templates" spacing="xl" tone="default">
+    <Section id="templates" spacing="md" tone="default">
       <Container size="wide" className="space-y-16">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <Badge
