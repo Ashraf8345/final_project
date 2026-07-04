@@ -1,19 +1,29 @@
-# PortfolioGenie Development Roadmap
+# PortfolioGenie — Development Roadmap
 
-Status Legend
+> Product feature definitions live in **docs/PRODUCT_SPEC.md**.
+> Engineering rules and coding standards live in **AGENTS.md**.
+> This roadmap describes what gets built and in what order.
 
-- ⏳ Not Started
-- 🚧 In Progress
-- ✅ Completed
-- ⛔ Blocked
+---
+
+# Status Legend
+
+| Symbol | Meaning     |
+| ------ | ----------- |
+| ✅     | Completed   |
+| 🚧     | In Progress |
+| ⏳     | Not Started |
+| ⛔     | Blocked     |
 
 ---
 
 # Vision
 
-PortfolioGenie is a premium AI-powered SaaS that enables developers to build professional portfolios, resumes, cover letters, and recruiter-ready personal branding directly from their GitHub profile.
+PortfolioGenie is a premium AI-powered SaaS that enables developers to transform their GitHub profile into a professional portfolio, resume, and personal brand.
 
-The application should be production-ready and scalable from day one.
+The MVP focuses on helping developers launch a recruiter-ready portfolio in minutes.
+
+Future versions will expand PortfolioGenie into an AI-powered career platform for software engineers.
 
 ---
 
@@ -21,365 +31,540 @@ The application should be production-ready and scalable from day one.
 
 Every phase must:
 
-- Build on previous work.
-- Produce reusable code.
+- Build upon previous phases.
+- Produce reusable components.
 - Follow AGENTS.md.
-- Use installed Skills.
+- Follow installed Skills automatically.
 - Pass TypeScript.
 - Pass ESLint.
-- Be fully responsive.
 - Meet WCAG AA accessibility.
-- Be production-ready.
+- Be mobile-first.
+- Be production-ready before moving forward.
 
 ---
 
-# Phase 0 - Project Foundation
+# Core User Journey
 
-Status: ✅
+1. Discover PortfolioGenie.
+2. Sign in.
+3. Connect GitHub.
+4. Import repositories.
+5. AI analyzes profile.
+6. Generate portfolio.
+7. Customize portfolio.
+8. Publish portfolio.
+9. Generate resume.
+10. Generate cover letter.
+11. Track portfolio analytics.
 
-Goal
+Every implemented feature should improve one or more steps in this journey.
 
-Set up the project foundation.
+---
 
-Deliverables
+# Milestones
+
+## 🚀 Milestone 1
+
+Marketing Website
+
+Phases 0 → 5
+
+---
+
+## 🚀 Milestone 2
+
+Core SaaS
+
+Phases 6 → 16
+
+---
+
+## 🚀 Milestone 3
+
+Production Launch
+
+Phases 17 → 18
+
+---
+
+# Development Phases
+
+---
+
+# Phase 0 — Foundation
+
+**Status:** ✅
+
+## Goal
+
+Bootstrap the project.
+
+## Deliverables
 
 - Next.js
 - TypeScript
-- Tailwind
+- Tailwind CSS
 - shadcn/ui
 - Convex
 - Better Auth
-- Skills
+- Project Skills
 - AGENTS.md
 - Project configuration
 
-Exit Criteria
+## Exit Criteria
 
 - Project builds successfully.
-- Lint passes.
 - TypeScript passes.
+- ESLint passes.
 
 ---
 
-# Phase 1 - Design Foundation
+# Phase 1 — Design System
 
-Status: ✅
+**Status:** ✅
 
-Goal
+## Goal
 
-Create the reusable design system.
+Build the reusable design system.
 
-Deliverables
+## Deliverables
 
-Install required shadcn/ui components.
+- Layout primitives
+- Typography scale
+- Color system
+- Spacing system
+- Shared UI components
+- Theme support
 
-Create shared primitives.
-
-Create
-
-- Container
-- Section
-- MaxWidthWrapper
-- Grid
-- Stack
-- Logo
-- ThemeToggle
-- Button variants
-- EmptyState
-- LoadingState
-- ErrorState
-- Skeletons
-- SectionHeader
-
-Exit Criteria
+## Exit Criteria
 
 Reusable design system completed.
 
 ---
 
-# Phase 2 - Navigation
+# Phase 2 — Navigation
 
-Status: ✅
+**Status:** ✅
 
-Goal
+## Goal
 
-Create reusable navigation.
+Build responsive navigation.
 
-Deliverables
+## Deliverables
 
 - Navbar
-- Mobile Navigation
-- Desktop Navigation
+- Mobile navigation
 - Footer
-- Navigation Links
-- CTA Buttons
+- Navigation links
+- CTA buttons
 
-Exit Criteria
+## Exit Criteria
 
-Navigation is fully responsive.
-
----
-
-# Phase 3 - Hero
-
-Status: ✅
-
-Goal
-
-Build an exceptional Hero.
-
-Deliverables
-
-- Announcement Banner
-- Hero Headline
-- Supporting Copy
-- CTA Buttons
-- GitHub Preview
-- Background Decorations
-
-Exit Criteria
-
-Hero is production quality.
+Responsive navigation across all breakpoints.
 
 ---
 
-# Phase 4 - Marketing Sections
+# Phase 3 — Hero
 
-Status: ✅
+**Status:** ✅
 
-Deliverables
+## Goal
 
-- Trusted By
-- Statistics
-- Feature Grid
-- AI Features
-- GitHub Features
-- Resume Features
-- Portfolio Features
+Create a premium hero experience.
 
-Exit Criteria
+## Deliverables
 
-Landing page content complete.
+- Hero
+- GitHub preview
+- CTA
+- Background effects
+- Announcement banner
+
+## Exit Criteria
+
+Production-quality hero section.
 
 ---
 
-# Phase 5 - Templates Showcase
+# Phase 4 — Landing Page
 
-Status: ⏳
+**Status:** ✅
 
-Deliverables
+## Goal
 
+Complete the marketing website.
+
+## Deliverables
+
+- How It Works
+- Features
+- AI Showcase
 - Portfolio Templates
-- Interactive Preview
-- Device Preview
-- Template Cards
-
----
-
-# Phase 6 - Pricing
-
-Status: ⏳
-
-Deliverables
-
-- Monthly / Yearly Toggle
-- Pricing Cards
-- Feature Comparison
-- Enterprise CTA
-
-Plans
-
-Free
-
-Pro
-
-Team
-
-Enterprise
-
-Exit Criteria
-
-Pricing section complete.
-
----
-
-# Phase 7 - Social Proof
-
-Status: ⏳
-
-Deliverables
-
-- Testimonials
+- Pricing
 - FAQ
-- Final CTA
-- Footer
+- CTA
+- Footer polish
+
+## Exit Criteria
+
+Landing page complete.
 
 ---
 
-# Phase 8 - SEO
+# Phase 5 — SEO & Performance
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
+
+Optimize the marketing website.
+
+## Deliverables
+
+SEO
 
 - Metadata
 - Open Graph
 - Twitter Cards
-- Sitemap
-- Robots
+- robots.txt
+- sitemap.xml
 - Structured Data
 
+Performance
+
+- Image optimization
+- Font optimization
+- Lazy loading
+- Bundle optimization
+- Accessibility audit
+- Lighthouse audit
+
+## Exit Criteria
+
+- Lighthouse Performance ≥ 90
+- Lighthouse Accessibility ≥ 90
+- Lighthouse SEO ≥ 90
+
 ---
 
-# Phase 9 - Performance
+# 🚀 MVP Marketing Website Complete
 
-Status: ⏳
+The public marketing website is considered complete after Phase 5.
 
-Deliverables
-
-- Lazy Loading
-- Bundle Optimization
-- Image Optimization
-- Loading Skeletons
-- Accessibility Audit
+No further visual redesigns should be introduced unless fixing bugs or improving accessibility.
 
 ---
 
-# Phase 10 - Authentication
+# Phase 6 — Authentication
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
+
+Implement secure authentication.
+
+## Deliverables
 
 - Better Auth
-- GitHub Login
-- Google Login
-- Email Authentication
-- Session Management
+- GitHub
+- Google
+- Email
+- Sessions
+- Protected routes
+
+## Exit Criteria
+
+Users can securely authenticate.
 
 ---
 
-# Phase 11 - Dashboard
+# Phase 7 — Dashboard Foundation
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
 
-Sidebar
+Build the authenticated application shell.
 
-Dashboard Layout
+## Deliverables
 
-Portfolio
+- Sidebar
+- Dashboard layout
+- Navigation
+- User menu
+- Settings
+- Empty states
 
-Resume
+## Exit Criteria
 
-Analytics
-
-Settings
-
-Billing
-
-GitHub
-
-AI Studio
+Dashboard shell complete.
 
 ---
 
-# Phase 12 - GitHub Integration
+# Phase 8 — GitHub Integration
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
 
-- OAuth
-- Repository Import
-- Language Detection
-- Contribution Analysis
-- Featured Projects
+Import GitHub data.
 
----
+## Deliverables
 
-# Phase 13 - AI
+- OAuth connection
+- Repository import
+- Repository synchronization
+- Language detection
+- Featured repositories
 
-Status: ⏳
+## Exit Criteria
 
-Deliverables
-
-- About Me Generator
-- Resume Generator
-- Cover Letter Generator
-- Portfolio Review
-- Recruiter Review
-- Portfolio Chat
-- AI Suggestions
+GitHub import works reliably.
 
 ---
 
-# Phase 14 - Billing
+# Phase 9 — AI Analysis Engine
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
+
+Generate structured developer insights.
+
+## Deliverables
+
+- Repository analysis
+- Skill detection
+- Tech stack detection
+- Career summary
+- Recommendations
+
+## Exit Criteria
+
+AI produces recruiter-ready outputs.
+
+---
+
+# Phase 10 — Portfolio Builder
+
+**Status:** ⏳
+
+## Goal
+
+Generate customizable portfolios.
+
+## Deliverables
+
+- Portfolio generation
+- Live preview
+- Theme customization
+- Editing
+- Drafts
+- Version history
+
+## Exit Criteria
+
+Users can build and publish portfolios.
+
+---
+
+# Phase 11 — Resume Builder
+
+**Status:** ⏳
+
+## Goal
+
+Generate resumes.
+
+## Deliverables
+
+- AI resume
+- ATS optimization
+- PDF export
+- DOCX export
+
+## Exit Criteria
+
+Resume generation complete.
+
+---
+
+# Phase 12 — Cover Letter Builder
+
+**Status:** ⏳
+
+## Goal
+
+Generate personalized cover letters.
+
+## Deliverables
+
+- Job description analysis
+- AI cover letters
+- Export
+
+## Exit Criteria
+
+Cover letter generation complete.
+
+---
+
+# Phase 13 — Portfolio Templates
+
+**Status:** ⏳
+
+## Goal
+
+Ship premium templates.
+
+## Deliverables
+
+- Five production templates
+- Theme switching
+- Responsive support
+
+## Exit Criteria
+
+Templates complete.
+
+---
+
+# Phase 14 — Portfolio Publishing
+
+**Status:** ⏳
+
+## Goal
+
+Publish portfolios.
+
+## Deliverables
+
+- Drafts
+- Publishing
+- Portfolio URLs
+- Custom domains
+- SSL
+
+## Exit Criteria
+
+Users can publish portfolios.
+
+---
+
+# Phase 15 — Analytics
+
+**Status:** ⏳
+
+## Goal
+
+Portfolio analytics.
+
+## Deliverables
+
+- Views
+- Visitors
+- Downloads
+- Devices
+- Countries
+- Referrers
+
+## Exit Criteria
+
+Analytics dashboard complete.
+
+---
+
+# Phase 16 — Billing
+
+**Status:** ⏳
+
+## Goal
+
+Subscription management.
+
+## Deliverables
 
 - Stripe
-- Pricing
-- Feature Gating
-- AI Credits
-- Billing Portal
+- Plans
+- Feature gating
+- Billing portal
+- AI credits
+
+## Exit Criteria
+
+Subscriptions fully operational.
 
 ---
 
-# Phase 15 - Analytics
+# 🚀 MVP Application Complete
 
-Status: ⏳
+The MVP SaaS is feature complete after Phase 16.
 
-Deliverables
-
-- Portfolio Views
-- Downloads
-- Shares
-- Visitor Tracking
+Future product expansion belongs in PRODUCT_SPEC.md.
 
 ---
 
-# Phase 16 - Deployment
+# Phase 17 — Deployment
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
 
-- Production Environment
-- Environment Variables
-- Vercel Deployment
-- Custom Domain
+Deploy production infrastructure.
+
+## Deliverables
+
+- Production deployment
+- Environment variables
+- Monitoring
+- Logging
+- Error tracking
+
+## Exit Criteria
+
+Application deployed successfully.
 
 ---
 
-# Phase 17 - Final Polish
+# Phase 18 — Final Polish
 
-Status: ⏳
+**Status:** ⏳
 
-Deliverables
+## Goal
 
-- Accessibility Audit
-- Performance Audit
-- Responsive Audit
-- Final QA
+Prepare for public launch.
+
+## Deliverables
+
+- Accessibility audit
+- Performance audit
+- Responsive audit
+- QA
 - Documentation
+
+## Exit Criteria
+
+Ready for launch.
+
+---
+
+# 🚀 Public Launch
+
+PortfolioGenie is publicly available.
 
 ---
 
 # Definition of Done
 
-The project is complete only when
+The project is complete only when:
 
-- All phases are completed.
-- Production-ready.
-- Fully responsive.
-- Accessible.
-- Strongly typed.
-- No ESLint errors.
-- No TypeScript errors.
+- Every phase is completed.
+- Production deployed.
+- TypeScript has zero errors.
+- ESLint has zero errors.
 - No duplicated code.
-- Optimized for Core Web Vitals.
+- Fully responsive.
+- WCAG AA compliant.
+- Core Web Vitals optimized.
+- Feature gating works correctly.
 - Ready for public launch.
