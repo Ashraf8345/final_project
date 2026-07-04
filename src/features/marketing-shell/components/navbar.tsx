@@ -1,10 +1,14 @@
-﻿import { siteLogo } from "@/config/navigation"
+"use client";
+
+import { siteLogo } from "@/config/navigation"
 import { Logo } from "@/components/brand/logo"
 import { ThemeToggle } from "@/components/brand/theme-toggle"
 import { Container } from "@/components/layout/container"
 import { DesktopNavigation } from "@/features/marketing-shell/components/desktop-navigation"
 import { MobileNavigation } from "@/features/marketing-shell/components/mobile-navigation"
 import { NavigationCtas } from "@/features/marketing-shell/components/navigation-ctas"
+import { UserDropdown } from "@/features/marketing-shell/components/user-dropdown"
+import { Authenticated } from "convex/react"
 
 export function Navbar() {
   return (
@@ -23,8 +27,11 @@ export function Navbar() {
             <ThemeToggle />
             <NavigationCtas />
           </div>
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center gap-2">
             <ThemeToggle />
+            <Authenticated>
+              <UserDropdown />
+            </Authenticated>
           </div>
           <MobileNavigation />
         </div>
