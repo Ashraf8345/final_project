@@ -203,13 +203,13 @@ export function CoreFeatures() {
               {/* Left and Right Edge Fade Indicators (Clipped inside rounded-full) */}
               <div
                 className={cn(
-                  "absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-muted to-transparent pointer-events-none z-10 block sm:hidden transition-opacity duration-200",
+                  "absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-muted to-transparent pointer-events-none z-10 block sm:hidden transition-opacity duration-250",
                   showLeftScroll ? "opacity-100" : "opacity-0"
                 )}
               />
               <div
                 className={cn(
-                  "absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-muted to-transparent pointer-events-none z-10 block sm:hidden transition-opacity duration-200",
+                  "absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-muted to-transparent pointer-events-none z-10 block sm:hidden transition-opacity duration-250",
                   showRightScroll ? "opacity-100" : "opacity-0"
                 )}
               />
