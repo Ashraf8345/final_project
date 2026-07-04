@@ -153,8 +153,35 @@ export function CoreFeatures() {
 
   const activeCategory = categories.find((cat) => cat.id === activeTab) || categories[0]
 
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
+  const [showLeftScroll, setShowLeftScroll] = React.useState(false)
+  const [showRightScroll, setShowRightScroll] = React.useState(false)
+
+  const checkScroll = React.useCallback(() => {
+    const element = scrollContainerRef.current
+    if (!element) return
+
+    const { scrollLeft, scrollWidth, clientWidth } = element
+    setShowLeftScroll(scrollLeft > 2)
+    setShowRightScroll(scrollLeft + clientWidth < scrollWidth - 2)
+  }, [])
+
+  React.useEffect(() => {
+    const element = scrollContainerRef.current
+    if (!element) return
+
+    // Run check initially
+    checkScroll()
+
+    // Add resize listener
+    window.addEventListener("resize", checkScroll)
+    return () => {
+      window.removeEventListener("resize", checkScroll)
+    }
+  }, [checkScroll, activeTab]) // Re-run if activeTab changes layout/dimensions
+
   return (
-    <Section id="core-features" spacing="xl" tone="default">
+    <Section id="core-features" spacing="md" tone="default">
       <Container size="wide" className="space-y-16">
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <Badge variant="outline" className="px-3 py-1 font-mono uppercase tracking-wider text-[10px] border-border/60">
@@ -170,31 +197,52 @@ export function CoreFeatures() {
 
         <div className="w-full space-y-10">
           {/* Animated Tabs list without ugly borders */}
-          <div className="flex justify-center">
-            <div className="flex gap-1 p-1 bg-muted/40 dark:bg-muted/20 rounded-full relative z-0">
-              {categories.map((cat) => {
-                const isActive = activeTab === cat.id
-                return (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveTab(cat.id)}
-                    className={cn(
-                      "relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                      isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-                    )}
-                  >
-                    {isActive && (
-                      <motion.div
-                        layoutId="active-feature-tab"
-                        className="absolute inset-0 bg-background dark:bg-zinc-800 shadow-sm rounded-full -z-10"
-                        transition={{ type: "spring", bounce: 0.15, duration: 0.35 }}
-                      />
-                    )}
-                    {cat.icon}
-                    <span>{cat.label}</span>
-                  </button>
-                )
-              })}
+          <div className="relative flex justify-center max-w-full w-full px-4 sm:px-0">
+            {/* Rounded Pill Wrapper with overflow-hidden to clip the fades */}
+            <div className="relative flex items-center bg-muted/40 dark:bg-muted/20 rounded-full relative z-0 max-w-full overflow-hidden w-full sm:w-auto">
+              {/* Left and Right Edge Fade Indicators (Clipped inside rounded-full) */}
+              <div
+                className={cn(
+                  "absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-muted to-transparent pointer-events-none z-10 block sm:hidden transition-opacity duration-200",
+                  showLeftScroll ? "opacity-100" : "opacity-0"
+                )}
+              />
+              <div
+                className={cn(
+                  "absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-muted to-transparent pointer-events-none z-10 block sm:hidden transition-opacity duration-200",
+                  showRightScroll ? "opacity-100" : "opacity-0"
+                )}
+              />
+
+              <div
+                ref={scrollContainerRef}
+                onScroll={checkScroll}
+                className="flex gap-1 p-1 overflow-x-auto max-w-full [scrollbar-width:none] [&::-webkit-scrollbar]:hidden scroll-smooth w-full"
+              >
+                {categories.map((cat) => {
+                  const isActive = activeTab === cat.id
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveTab(cat.id)}
+                      className={cn(
+                        "relative flex items-center gap-2 px-4 py-2 text-sm font-medium transition-colors duration-200 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring shrink-0",
+                        isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                      )}
+                    >
+                      {isActive && (
+                        <motion.div
+                          layoutId="active-feature-tab"
+                          className="absolute inset-0 bg-background dark:bg-zinc-800 shadow-sm rounded-full -z-10"
+                          transition={{ type: "spring", bounce: 0.15, duration: 0.35 }}
+                        />
+                      )}
+                      {cat.icon}
+                      <span>{cat.label}</span>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
           </div>
 
@@ -204,7 +252,7 @@ export function CoreFeatures() {
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3 }}
-            className="grid gap-8 items-center lg:grid-cols-2 mt-0 focus-visible:outline-none"
+            className="grid gap-8 items-center lg:grid-cols-2 mt-0 focus-visible:outline-none min-h-[520px] sm:min-h-[460px] lg:min-h-[270px]"
           >
             {/* Feature Content */}
             <div className="space-y-6">
