@@ -4,6 +4,9 @@ import { BentoFeatures } from "@/features/marketing/components/bento-features"
 import { AIShowcase } from "@/features/marketing/components/ai-showcase"
 import { CoreFeatures } from "@/features/marketing/components/core-features"
 import { PortfolioTemplates } from "@/features/marketing/components/portfolio-templates"
+import { Pricing } from "@/features/marketing/components/pricing"
+import { Faq } from "@/features/marketing/components/faq"
+import { FinalCta } from "@/features/marketing/components/final-cta"
 
 export default function Home() {
   return (
@@ -13,6 +16,9 @@ export default function Home() {
       <AIShowcase />
       <CoreFeatures />
       <PortfolioTemplates />
+      <Pricing />
+      <Faq />
+      <FinalCta />
     </MarketingLayout>
   )
 }
