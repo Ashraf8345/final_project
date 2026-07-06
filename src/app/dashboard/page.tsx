@@ -1,216 +1,216 @@
 "use client";
 
 import * as React from "react";
+import { useQuery, useAction } from "convex/react";
+import { api } from "../../../convex/_generated/api";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
-import {
-  SparklesIcon,
-  GitHubIcon,
-  PlusIcon,
-  ArrowRightIcon,
-} from "@/components/ui/icons";
-import {
-  SectionTitle,
-  StatCard,
-  QuickActionCard,
-  ActivityCard,
-} from "@/features/dashboard/components/dashboard-card";
+import { Card, CardContent } from "@/components/ui/card";
+import { 
+  EmptyAnalysisState, 
+  AnalysisProgress, 
+  CareerSummaryCard, 
+  SkillsOverview, 
+  RepositoryScoreCard, 
+  RecommendationCard, 
+  FeaturedProjectsPreview 
+} from "@/features/ai/components/analysis-components";
+import { GitHubIcon, SparklesIcon, ChevronRightIcon } from "@/components/ui/icons";
 import Link from "next/link";
 import type { Route } from "next";
+import { toast } from "sonner";
 
 export default function DashboardPage() {
   const { data: session } = authClient.useSession();
   const userName = session?.user?.name || "Developer";
 
-  // Mock activity logs
-  const mockActivities = [
-    {
-      id: "1",
-      title: "Account Created",
-      description: "Welcome to Devora! Your personal workspace is ready.",
-      time: "2 hours ago",
-      icon: (
-        <svg className="h-2.5 w-2.5 text-brand" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="3">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
-        </svg>
-      ),
-    },
-  ];
+  // Convex queries
+  const profile = useQuery(api.github.getProfile);
+  const syncStatus = useQuery(api.github.getSyncStatus);
+  const repos = useQuery(api.github.getRepositories);
+  const aiStatus = useQuery(api.ai.getAnalysisStatus);
+  const aiResults = useQuery(api.ai.getAnalysisResults);
 
-  // Steps for the checklist
-  const checklistSteps = [
-    {
-      id: 1,
-      title: "Connect your GitHub account",
-      description: "Allow Devora to scan your repositories and extract metadata.",
-      completed: false,
-      href: "/github",
-    },
-    {
-      id: 2,
-      title: "Select a custom template",
-      description: "Pick from our collection of premium developer layouts.",
-      completed: false,
-      href: "/templates",
-    },
-    {
-      id: 3,
-      title: "Generate AI resume & portfolio",
-      description: "Customize sections, write bios, and publish your branding site.",
-      completed: false,
-      href: "/builder",
-    },
-  ];
+  // Convex actions
+  const startAIAnalysis = useAction(api.ai.startAnalysis);
+
+  const [isTriggering, setIsTriggering] = React.useState(false);
+
+  // Trigger AI Analysis
+  const handleStartAnalysis = async () => {
+    setIsTriggering(true);
+    const toastId = toast.loading("Launching AI models for repository analysis...");
+    try {
+      const res = await startAIAnalysis();
+      if (res && !res.success) {
+        toast.error(res.error || "AI Analysis failed to run.", { id: toastId });
+      } else {
+        toast.success("AI Profile Analysis completed successfully!", { id: toastId });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error((err as Error).message || "Failed to trigger analysis.", { id: toastId });
+    } finally {
+      setIsTriggering(false);
+    }
+  };
+
+  // Check if GitHub is connected & synced
+  const hasSyncedRepos = syncStatus?.status === "success" && profile;
+
+  // Construct lookup maps for names, descriptions, stars and languages from active cache
+  const lookupMaps = React.useMemo(() => {
+    const names: Record<number, string> = {};
+    const descriptions: Record<number, string | null> = {};
+    const stars: Record<number, number> = {};
+    const languages: Record<number, string | null> = {};
+
+    if (repos) {
+      for (const r of repos) {
+        names[r.repoId] = r.name;
+        descriptions[r.repoId] = r.description;
+        stars[r.repoId] = r.stars;
+        languages[r.repoId] = r.primaryLanguage;
+      }
+    }
+
+    return { names, descriptions, stars, languages };
+  }, [repos]);
+
+  // Render loading skeletons while Convex queries are unresolved
+  if (profile === undefined || syncStatus === undefined || aiStatus === undefined) {
+    return (
+      <div className="space-y-8 animate-in fade-in duration-300">
+        <div className="flex flex-col space-y-2 border-b border-border/40 pb-6">
+          <div className="h-8 w-48 bg-zinc-200 dark:bg-zinc-800 rounded-md animate-pulse" />
+          <div className="h-4 w-96 bg-zinc-100 dark:bg-zinc-900 rounded-md animate-pulse" />
+        </div>
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2 space-y-6">
+            <div className="h-48 bg-zinc-100 dark:bg-zinc-900/40 border border-border/20 rounded-2xl animate-pulse" />
+            <div className="h-64 bg-zinc-100 dark:bg-zinc-900/40 border border-border/20 rounded-2xl animate-pulse" />
+          </div>
+          <div className="space-y-6">
+            <div className="h-80 bg-zinc-100 dark:bg-zinc-900/40 border border-border/20 rounded-2xl animate-pulse" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Welcome Header */}
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground bg-gradient-to-r from-foreground via-foreground/95 to-muted-foreground/80 bg-clip-text text-transparent">
-          Welcome back, {userName}
-        </h1>
-        <p className="text-sm text-muted-foreground leading-normal">
-          Build your professional brand, sync repositories, and review analytics here.
-        </p>
-      </div>
-
-      {/* Overview stats */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <StatCard
-          title="Portfolio Status"
-          value="Not Published"
-          subtext="No live URLs yet"
-          icon={
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-            </svg>
-          }
-        />
-
-        <StatCard
-          title="GitHub Connection"
-          value="Disconnected"
-          subtext="No profile linked"
-          icon={<GitHubIcon className="h-4 w-4" />}
-        />
-
-        <StatCard
-          title="AI Credits Balance"
-          value="50 Credits"
-          subtext="Renewed monthly"
-          trend={{ value: "100%", direction: "up" }}
-          icon={<SparklesIcon className="h-4 w-4 text-brand" />}
-        />
-      </div>
-
-      {/* Quick Actions */}
-      <div>
-        <SectionTitle
-          title="Quick Actions"
-          description="Access core developer branding tools directly"
-        />
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <Link href={"/builder" as Route} className="no-underline block">
-            <QuickActionCard
-              title="Portfolio Builder"
-              description="Build and publish developer landing pages."
-              icon={<PlusIcon className="h-4 w-4" />}
-            />
-          </Link>
-
-          <Link href={"/resume" as Route} className="no-underline block">
-            <QuickActionCard
-              title="Resume Builder"
-              description="Extract skills and build PDF resumes."
-              icon={
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              }
-            />
-          </Link>
-
-          <Link href={"/cover-letters" as Route} className="no-underline block">
-            <QuickActionCard
-              title="Cover Letters"
-              description="Generate tailored summaries for applications."
-              icon={
-                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-              }
-            />
-          </Link>
-
-          <Link href={"/ai-studio" as Route} className="no-underline block">
-            <QuickActionCard
-              title="AI Studio"
-              description="Optimise profiles and generate bios."
-              icon={<SparklesIcon className="h-4 w-4" />}
-            />
-          </Link>
+      {/* Page Header */}
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 border-b border-border/40 pb-6">
+        <div className="space-y-1.5">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground bg-gradient-to-r from-foreground via-foreground/95 to-muted-foreground/80 bg-clip-text text-transparent">
+            Welcome, {userName}
+          </h1>
+          <p className="text-sm text-muted-foreground leading-normal">
+            Analyze codebases, customize portfolios, and build recruiter summaries.
+          </p>
         </div>
+        {hasSyncedRepos && aiStatus?.status === "success" && (
+          <Button 
+            onClick={handleStartAnalysis} 
+            disabled={isTriggering}
+            size="sm"
+            className="h-9 font-medium shadow-sm"
+          >
+            <SparklesIcon className="mr-2 h-4 w-4" />
+            Re-run AI Analysis
+          </Button>
+        )}
       </div>
 
-      {/* Main Section: Checklist & Activity */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        {/* Checklist */}
-        <div className="lg:col-span-2 space-y-4">
-          <SectionTitle
-            title="Getting Started Checklist"
-            description="Complete these steps to set up your online presence"
-          />
-          <div className="border border-border/50 bg-card/60 backdrop-blur-xl rounded-2xl overflow-hidden divide-y divide-border/40">
-            {checklistSteps.map((step) => (
-              <div
-                key={step.id}
-                className="p-5 flex items-start justify-between gap-4 hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 transition-colors duration-200"
-              >
-                <div className="flex items-start gap-4">
-                  <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border/60 text-muted-foreground">
-                    <span className="text-xs font-semibold">{step.id}</span>
-                  </div>
-                  <div className="space-y-0.5">
-                    <p className="text-sm font-semibold text-foreground leading-none">{step.title}</p>
-                    <p className="text-xs text-muted-foreground leading-normal">{step.description}</p>
-                  </div>
-                </div>
-                <Link href={step.href as Route} className="shrink-0">
-                  <Button variant="outline" size="sm" className="h-8 text-xs gap-1 border-border/80">
-                    Start <ArrowRightIcon className="h-3.5 w-3.5" />
-                  </Button>
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Activity & Credits */}
-        <div className="space-y-6">
-          <ActivityCard
-            title="Recent Activity"
-            activities={mockActivities}
-          />
-
-          {/* Prompt card */}
-          <div className="border border-border/50 bg-card/60 backdrop-blur-xl rounded-2xl p-6 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand/10 text-brand">
-                <SparklesIcon className="h-4 w-4" />
-              </div>
-              <h3 className="text-sm font-bold text-foreground leading-none">AI Profile Tips</h3>
+      {/* STATE 1: GitHub not linked/synced yet */}
+      {!hasSyncedRepos ? (
+        <Card className="border-border/40 bg-zinc-50/50 dark:bg-zinc-950/20 py-10">
+          <CardContent className="flex flex-col items-center justify-center max-w-md mx-auto text-center">
+            <div className="h-12 w-12 rounded-2xl bg-zinc-100 dark:bg-zinc-900 border border-border/40 flex items-center justify-center mb-5 text-muted-foreground shadow-sm">
+              <GitHubIcon className="h-6 w-6" />
             </div>
-            <p className="text-xs text-muted-foreground leading-relaxed">
-              Syncing your GitHub account gives the AI models context about your repositories. Connect your account to enable automated portfolio generation!
+            <h3 className="text-lg font-bold tracking-tight text-foreground mb-2">
+              Connect your GitHub Profile
+            </h3>
+            <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+              To enable AI Analysis, please first connect your GitHub account and synchronize your repositories.
             </p>
-            <Link href={"/github" as Route} className="inline-block w-full">
-              <Button className="w-full text-xs font-semibold h-9 rounded-lg" variant="brand">
-                Connect Profile
+            <Link href={"/github" as Route}>
+              <Button className="font-semibold shadow-sm">
+                Go to GitHub Sync
+                <ChevronRightIcon className="ml-2 h-4 w-4" />
               </Button>
             </Link>
-          </div>
+          </CardContent>
+        </Card>
+      ) : (
+        /* STATE 2: GitHub linked. Render AI sync status and results */
+        <div className="space-y-6">
+          {/* If running or errored, show progress card */}
+          {(aiStatus?.status === "running" || aiStatus?.status === "error") && (
+            <AnalysisProgress
+              progress={aiStatus.progress}
+              status={aiStatus.status}
+              error={aiStatus.error}
+              onRetry={handleStartAnalysis}
+            />
+          )}
+
+          {/* If never run, show empty analysis state */}
+          {(!aiStatus || aiStatus.status === "pending") && (
+            <EmptyAnalysisState 
+              onStartAnalysis={handleStartAnalysis} 
+              isLoading={isTriggering} 
+            />
+          )}
+
+          {/* If successfully complete, show AI analysis dashboard widgets */}
+          {aiStatus?.status === "success" && aiResults && (
+            <div className="grid gap-6 lg:grid-cols-3">
+              {/* Left Column - Summaries & Technical Stats */}
+              <div className="lg:col-span-2 space-y-6">
+                {aiResults.summary && (
+                  <CareerSummaryCard
+                    summary={aiResults.summary}
+                    onReAnalyze={handleStartAnalysis}
+                    isAnalyzing={isTriggering}
+                  />
+                )}
+
+                {aiResults.recommendations && (
+                  <FeaturedProjectsPreview
+                    suggestedRepoIds={aiResults.recommendations.suggestedFeaturedRepos}
+                    repoNames={lookupMaps.names}
+                    repoDescriptions={lookupMaps.descriptions}
+                    repoStars={lookupMaps.stars}
+                    repoLanguages={lookupMaps.languages}
+                  />
+                )}
+
+                {aiResults.repoScores && aiResults.repoAnalyses && (
+                  <RepositoryScoreCard
+                    scores={aiResults.repoScores}
+                    analyses={aiResults.repoAnalyses}
+                    repoNames={lookupMaps.names}
+                  />
+                )}
+              </div>
+
+              {/* Right Column - Skill Badges & Strategic Recommendations */}
+              <div className="space-y-6">
+                {aiResults.skills && (
+                  <SkillsOverview skills={aiResults.skills} />
+                )}
+
+                {aiResults.recommendations && (
+                  <RecommendationCard recommendations={aiResults.recommendations} />
+                )}
+              </div>
+            </div>
+          )}
         </div>
-      </div>
+      )}
     </div>
   );
 }
