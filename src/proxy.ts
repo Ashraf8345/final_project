@@ -1,7 +1,18 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const protectedRoutes = ["/dashboard", "/settings", "/builder", "/analytics", "/billing"];
+const protectedRoutes = [
+  "/dashboard",
+  "/settings",
+  "/builder",
+  "/analytics",
+  "/billing",
+  "/resume",
+  "/cover-letters",
+  "/templates",
+  "/ai-studio",
+  "/github"
+];
 const guestOnlyRoutes = ["/sign-in", "/sign-up", "/forgot-password", "/reset-password"];
 
 export function proxy(request: NextRequest) {
