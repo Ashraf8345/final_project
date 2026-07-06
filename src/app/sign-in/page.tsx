@@ -88,7 +88,7 @@ function SignInForm() {
   );
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+    <div className="flex min-h-screen flex-col items-center justify-center py-12">
       <AuthCard
         title="Welcome back"
         description="Sign in to your account to manage your developer portfolio"
@@ -119,7 +119,7 @@ function SignInForm() {
                     aria-invalid={fieldState.invalid}
                     placeholder="you@example.com"
                     disabled={loading}
-                    className="border-border/80 focus-visible:ring-ring bg-zinc-900/20 h-10 rounded-lg text-sm"
+                    className="border-border/80 focus-visible:ring-ring bg-zinc-50 dark:bg-zinc-900/20 h-10 rounded-lg text-sm"
                   />
                   {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
                 </Field>
@@ -158,7 +158,7 @@ export default function SignInPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+        <div className="flex min-h-screen flex-col items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-800 border-t-zinc-400" />
         </div>
       }

@@ -137,7 +137,7 @@ interface SidebarContentProps {
 
 function SidebarContent({ pathname, setMobileOpen }: SidebarContentProps) {
   return (
-    <div className="flex flex-col h-full bg-zinc-950/40 text-foreground border-r border-border/40">
+    <div className="flex flex-col h-full bg-zinc-50/50 dark:bg-zinc-950/40 text-foreground border-r border-border/40">
       <div className="flex h-16 items-center px-6 border-b border-border/40 gap-3">
         <Logo href="/" />
         <span className="font-bold text-sm tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-transparent">
@@ -158,8 +158,8 @@ function SidebarContent({ pathname, setMobileOpen }: SidebarContentProps) {
               className={cn(
                 "flex items-center gap-3 px-4 py-2.5 text-sm font-medium rounded-xl transition-all duration-200",
                 isActive
-                  ? "bg-zinc-900 text-foreground shadow-sm border border-border/40"
-                  : "text-muted-foreground hover:bg-zinc-900/40 hover:text-foreground",
+                  ? "bg-white dark:bg-zinc-900 text-foreground shadow-sm border border-border/40"
+                  : "text-muted-foreground hover:bg-zinc-100/80 dark:hover:bg-zinc-900/40 hover:text-foreground",
               )}
             >
               {item.icon}
@@ -183,7 +183,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
   return (
-    <div className="flex min-h-screen bg-zinc-950 text-foreground">
+    <div className="flex min-h-screen bg-background text-foreground">
       {/* Desktop Sidebar */}
       <aside className="hidden md:flex md:w-64 md:flex-col md:fixed md:inset-y-0 z-20">
         <SidebarContent pathname={pathname} setMobileOpen={setMobileOpen} />
@@ -192,7 +192,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Main Container */}
       <div className="flex flex-col flex-1 md:pl-64">
         {/* Header */}
-        <header className="sticky top-0 z-10 flex h-16 items-center justify-between px-4 sm:px-6 md:px-8 border-b border-border/40 bg-zinc-950/80 backdrop-blur-xl">
+        <header className="sticky top-0 z-10 flex h-16 items-center justify-between px-4 sm:px-6 md:px-8 border-b border-border/40 bg-background/80 backdrop-blur-xl">
           <div className="flex items-center gap-4">
             {/* Mobile Sheet Trigger */}
             <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
@@ -219,7 +219,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               </SheetTrigger>
               <SheetContent
                 side="left"
-                className="p-0 w-64 border-r border-border/60 bg-zinc-950"
+                className="p-0 w-64 border-r border-border/60 bg-background"
               >
                 <SheetHeader className="sr-only">
                   <SheetTitle>Navigation Menu</SheetTitle>

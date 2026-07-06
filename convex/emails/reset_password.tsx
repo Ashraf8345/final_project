@@ -7,7 +7,6 @@ import {
   Heading,
   Hr,
   Html,
-  Link,
   Preview,
   Section,
   Tailwind,
@@ -79,7 +78,7 @@ export default function ResetPasswordEmail({
               </Text>
 
               <Text className="mt-4 text-base leading-7 text-muted">
-                Click the button below to create a new password. If you didn't
+                Click the button below to create a new password. If you didn&apos;t
                 request this, you can safely ignore this email and your current
                 password will remain unchanged.
               </Text>
@@ -98,7 +97,7 @@ export default function ResetPasswordEmail({
 
             <Section>
               <Text className="mt-4 text-sm leading-7 text-muted">
-                If you didn't request a password reset, you don't need to do
+                If you didn&apos;t request a password reset, you don&apos;t need to do
                 anything. Your password has not been changed.
               </Text>
             </Section>

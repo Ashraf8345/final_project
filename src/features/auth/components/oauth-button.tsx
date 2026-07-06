@@ -55,7 +55,7 @@ export function OAuthButton({ provider, isLoading, onClick }: OAuthButtonProps) 
     <Button
       variant="outline"
       type="button"
-      className="w-full flex items-center justify-center border-border/80 bg-zinc-900/40 text-foreground hover:bg-zinc-900/80 hover:text-foreground text-sm font-medium h-10 px-4 rounded-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none transition-all duration-200"
+      className="w-full flex items-center justify-center border-border/80 bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900/40 dark:hover:bg-zinc-900/80 text-foreground hover:text-foreground text-sm font-medium h-10 px-4 rounded-lg focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none transition-all duration-200"
       onClick={handleOAuth}
       disabled={loading}
       aria-label={`Sign in with ${label}`}

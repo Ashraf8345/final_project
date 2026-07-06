@@ -96,7 +96,7 @@ function ResetPasswordForm() {
   );
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+    <div className="flex min-h-screen flex-col items-center justify-center py-12">
       <AuthCard
         title="Choose a new password"
         description="Please choose a strong password for your account"
@@ -161,7 +161,7 @@ export default function ResetPasswordPage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+        <div className="flex min-h-screen flex-col items-center justify-center py-12">
           <div className="h-8 w-8 animate-spin rounded-full border-2 border-zinc-800 border-t-zinc-400" />
         </div>
       }
