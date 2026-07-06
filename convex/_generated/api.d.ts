@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as ai from "../ai.js";
 import type * as auth from "../auth.js";
 import type * as emails_reset_password from "../emails/reset_password.js";
 import type * as emails_verify_email from "../emails/verify_email.js";
@@ -22,6 +23,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  ai: typeof ai;
   auth: typeof auth;
   "emails/reset_password": typeof emails_reset_password;
   "emails/verify_email": typeof emails_verify_email;
