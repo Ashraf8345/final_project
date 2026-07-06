@@ -11,6 +11,7 @@ export const env = createEnv({
 
     GITHUB_CLIENT_ID: z.string().min(16).max(128),
     GITHUB_CLIENT_SECRET: z.string().min(16).max(128),
+    GOOGLE_API_KEY: z.string().min(16).max(128),
   },
 
   client: {
