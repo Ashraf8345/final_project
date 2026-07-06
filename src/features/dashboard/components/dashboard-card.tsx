@@ -77,7 +77,7 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <DashboardCard className={className}>
-      <CardContent className="p-6">
+      <CardContent className="px-5">
         <div className="flex items-center justify-between gap-4">
           <p className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wider leading-none">
             {title}
@@ -88,7 +88,7 @@ export function StatCard({
             </div>
           )}
         </div>
-        <div className="mt-4 flex items-baseline gap-2">
+        <div className="mt-2 flex items-baseline gap-2">
           <span className="text-2xl font-bold tracking-tight text-foreground">
             {value}
           </span>
@@ -141,7 +141,7 @@ export function ActivityCard({
 }: ActivityCardProps) {
   return (
     <DashboardCard className={className}>
-      <CardContent className="p-6">
+      <CardContent className="px-5">
         <h3 className="text-xs font-semibold text-muted-foreground/80 uppercase tracking-wider leading-none mb-6">
           {title}
         </h3>
@@ -216,7 +216,7 @@ export function QuickActionCard({
         }
       }}
     >
-      <CardContent className="p-6 flex items-start gap-4">
+      <CardContent className="px-5 flex items-start gap-4">
         <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-zinc-100 dark:bg-zinc-900 border border-border/40 text-muted-foreground group-hover:bg-brand/5 group-hover:text-brand transition-all duration-300 shadow-sm shrink-0">
           {icon}
         </div>

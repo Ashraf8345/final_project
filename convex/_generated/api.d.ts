@@ -12,6 +12,7 @@ import type * as auth from "../auth.js";
 import type * as emails_reset_password from "../emails/reset_password.js";
 import type * as emails_verify_email from "../emails/verify_email.js";
 import type * as emails_welcome from "../emails/welcome.js";
+import type * as github from "../github.js";
 import type * as http from "../http.js";
 
 import type {
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   "emails/reset_password": typeof emails_reset_password;
   "emails/verify_email": typeof emails_verify_email;
   "emails/welcome": typeof emails_welcome;
+  github: typeof github;
   http: typeof http;
 }>;
 

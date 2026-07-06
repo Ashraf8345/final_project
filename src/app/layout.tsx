@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
+import { Toaster } from "@/components/ui/sonner";
+import { AuthErrorToast } from "@/components/providers/auth-error-toast";
 import { fontVariables } from "@/lib/fonts";
 
 import "./globals.css";
@@ -34,7 +36,11 @@ export default function RootLayout({
           Skip to main content
         </a>
         <ThemeProvider>
-          <ConvexClientProvider>{children}</ConvexClientProvider>
+          <ConvexClientProvider>
+            {children}
+            <Toaster />
+            <AuthErrorToast />
+          </ConvexClientProvider>
         </ThemeProvider>
       </body>
     </html>

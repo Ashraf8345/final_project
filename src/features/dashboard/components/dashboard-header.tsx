@@ -88,7 +88,7 @@ export function DashboardHeader({
             type="text"
             placeholder="Search documentation..."
             disabled
-            className="h-9 w-48 rounded-lg border border-border/40 bg-zinc-50 dark:bg-zinc-950/40 pl-9 pr-3 text-xs text-muted-foreground focus-visible:outline-none cursor-not-allowed opacity-80"
+            className="h-9 w-55 rounded-lg border border-border/40 bg-zinc-50 dark:bg-zinc-950/40 pl-9 pr-3 text-xs text-muted-foreground focus-visible:outline-none cursor-not-allowed opacity-80"
           />
           <kbd className="absolute right-3 hidden lg:inline-flex h-5 select-none items-center gap-0.5 rounded border border-border/40 bg-muted px-1.5 font-mono text-[9px] font-medium text-muted-foreground/80 leading-none">
             ⌘K
