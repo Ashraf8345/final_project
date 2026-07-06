@@ -57,35 +57,36 @@ export function UserDropdown() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0 border border-border/40 hover:bg-zinc-900/60 focus-visible:ring-2 focus-visible:ring-ring">
+        <Button variant="ghost" className="relative h-9 w-9 rounded-full p-0 border border-border/40 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring">
           <Avatar className="h-9 w-9">
             {image && <AvatarImage src={image} alt={name || "User avatar"} />}
-            <AvatarFallback className="bg-zinc-900 text-xs font-semibold text-foreground">
+            <AvatarFallback className="bg-zinc-100 dark:bg-zinc-900 text-xs font-semibold text-foreground">
               {initials}
             </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 border-border/60 bg-zinc-950 text-foreground" align="end" forceMount>
+      <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
             <p className="text-sm font-semibold text-foreground leading-none">{name}</p>
             <p className="text-xs text-muted-foreground leading-none truncate mt-0.5">{email}</p>
           </div>
         </DropdownMenuLabel>
-        <DropdownMenuSeparator className="bg-border/40" />
-        <DropdownMenuItem asChild className="focus:bg-zinc-900/60 focus:text-foreground cursor-pointer text-sm">
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild className="cursor-pointer text-sm">
           <Link href={"/dashboard" as Route}>Dashboard</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild className="focus:bg-zinc-900/60 focus:text-foreground cursor-pointer text-sm">
+        <DropdownMenuItem asChild className="cursor-pointer text-sm">
           <Link href={"/builder" as Route}>Portfolio Builder</Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild className="focus:bg-zinc-900/60 focus:text-foreground cursor-pointer text-sm">
+        <DropdownMenuItem asChild className="cursor-pointer text-sm">
           <Link href={"/settings" as Route}>Settings</Link>
         </DropdownMenuItem>
-        <DropdownMenuSeparator className="bg-border/40" />
+        <DropdownMenuSeparator />
         <DropdownMenuItem
-          className="focus:bg-destructive/15 focus:text-destructive text-destructive cursor-pointer text-sm font-medium"
+          variant="destructive"
+          className="cursor-pointer text-sm font-medium"
           disabled={signingOut}
           onClick={handleSignOut}
         >

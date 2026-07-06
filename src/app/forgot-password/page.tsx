@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
   );
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+    <div className="flex min-h-screen flex-col items-center justify-center py-12">
       <AuthCard
         title="Reset your password"
         description="Enter your email address and we'll send you a link to reset your password"
@@ -87,7 +87,7 @@ export default function ForgotPasswordPage() {
                   placeholder="you@example.com"
                   aria-invalid={fieldState.invalid}
                   disabled={loading}
-                  className="border-border/80 focus-visible:ring-ring bg-zinc-900/20 h-10 rounded-lg text-sm"
+                  className="border-border/80 focus-visible:ring-ring bg-zinc-50 dark:bg-zinc-900/20 h-10 rounded-lg text-sm"
                 />
                 {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
               </Field>

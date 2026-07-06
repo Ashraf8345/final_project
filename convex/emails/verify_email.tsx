@@ -7,7 +7,6 @@ import {
   Heading,
   Hr,
   Html,
-  Link,
   Preview,
   Section,
   Tailwind,
@@ -79,7 +78,7 @@ export default function VerifyEmail({
               </Text>
 
               <Text className="mt-4 text-base leading-7 text-muted">
-                You're one click away from turning your GitHub profile into a
+                You&apos;re one click away from turning your GitHub profile into a
                 professional portfolio, resume, and personal brand.
               </Text>
 
@@ -101,7 +100,7 @@ export default function VerifyEmail({
 
             <Section>
               <Text className="mt-4 text-sm leading-7 text-muted">
-                If you didn't create a Devora account, you can safely ignore
+                If you didn&apos;t create a Devora account, you can safely ignore
                 this email.
               </Text>
             </Section>

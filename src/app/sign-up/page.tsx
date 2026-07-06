@@ -96,14 +96,14 @@ export default function SignUpPage() {
 
   if (isRegistered) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+      <div className="flex min-h-screen flex-col items-center justify-center py-12">
         <AuthCard
           title="Verify your email"
           description="Verification link sent successfully"
           footer={footer}
         >
           <div className="space-y-4 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-950/30 border border-emerald-500/20 text-emerald-400">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-500/20 text-emerald-600 dark:text-emerald-400">
               <svg
                 className="h-6 w-6"
                 fill="none"
@@ -133,7 +133,7 @@ export default function SignUpPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 py-12">
+    <div className="flex min-h-screen flex-col items-center justify-center py-12">
       <AuthCard
         title="Create your account"
         description="Join Devora and start building your brand"
@@ -162,7 +162,7 @@ export default function SignUpPage() {
                     placeholder="John Doe"
                     aria-invalid={fieldState.invalid}
                     disabled={loading}
-                    className="border-border/80 focus-visible:ring-ring bg-zinc-900/20 h-10 rounded-lg text-sm"
+                    className="border-border/80 focus-visible:ring-ring bg-zinc-50 dark:bg-zinc-900/20 h-10 rounded-lg text-sm"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />
@@ -184,7 +184,7 @@ export default function SignUpPage() {
                     placeholder="you@example.com"
                     aria-invalid={fieldState.invalid}
                     disabled={loading}
-                    className="border-border/80 focus-visible:ring-ring bg-zinc-900/20 h-10 rounded-lg text-sm"
+                    className="border-border/80 focus-visible:ring-ring bg-zinc-50 dark:bg-zinc-900/20 h-10 rounded-lg text-sm"
                   />
                   {fieldState.invalid && (
                     <FieldError errors={[fieldState.error]} />

@@ -31,7 +31,7 @@ export function AuthCard({
         </p>
       </div>
 
-      <Card className="border border-border/60 bg-zinc-950/80 backdrop-blur-xl shadow-2xl">
+      <Card className="border border-border/50 bg-card/75 dark:bg-zinc-950/80 backdrop-blur-xl shadow-2xl">
         <CardHeader className="space-y-1.5 pb-2">
           <CardTitle className="text-2xl font-bold tracking-tight text-foreground text-center">
             {title}

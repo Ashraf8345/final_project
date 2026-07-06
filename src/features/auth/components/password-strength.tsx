@@ -60,7 +60,7 @@ export function PasswordStrength({ value }: PasswordStrengthProps) {
           <div
             key={idx}
             className={cn(
-              "h-full w-full rounded-full bg-zinc-800 transition-all duration-300",
+              "h-full w-full rounded-full bg-zinc-200 dark:bg-zinc-800 transition-all duration-300",
               idx < passedCount && getStrengthColor()
             )}
           />
@@ -76,7 +76,7 @@ export function PasswordStrength({ value }: PasswordStrengthProps) {
               <svg
                 className={cn(
                   "h-3.5 w-3.5 transition-colors duration-200",
-                  isPassed ? "text-emerald-500" : "text-zinc-600"
+                  isPassed ? "text-emerald-500" : "text-zinc-400 dark:text-zinc-600"
                 )}
                 fill="none"
                 viewBox="0 0 24 24"
