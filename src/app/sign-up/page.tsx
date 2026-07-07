@@ -140,7 +140,7 @@ export default function SignUpPage() {
         footer={footer}
       >
         <div className="space-y-4">
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid min-[395px]:grid-cols-2 grid-cols-1 gap-3">
             <OAuthButton provider="github" isLoading={loading} />
             <OAuthButton provider="google" isLoading={loading} />
           </div>
@@ -159,7 +159,7 @@ export default function SignUpPage() {
                   <Input
                     {...field}
                     id={field.name}
-                    placeholder="John Doe"
+                    placeholder="Enter your name"
                     aria-invalid={fieldState.invalid}
                     disabled={loading}
                     className="border-border/80 focus-visible:ring-ring bg-zinc-50 dark:bg-zinc-900/20 h-10 rounded-lg text-sm"
@@ -181,7 +181,7 @@ export default function SignUpPage() {
                     {...field}
                     id={field.name}
                     type="email"
-                    placeholder="you@example.com"
+                    placeholder="Enter your email address"
                     aria-invalid={fieldState.invalid}
                     disabled={loading}
                     className="border-border/80 focus-visible:ring-ring bg-zinc-50 dark:bg-zinc-900/20 h-10 rounded-lg text-sm"
@@ -202,7 +202,7 @@ export default function SignUpPage() {
                   <PasswordInput
                     {...field}
                     id={field.name}
-                    placeholder="••••••••"
+                    placeholder="Enter your password"
                     aria-invalid={fieldState.invalid}
                     disabled={loading}
                   />
