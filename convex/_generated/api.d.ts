@@ -15,6 +15,7 @@ import type * as emails_verify_email from "../emails/verify_email.js";
 import type * as emails_welcome from "../emails/welcome.js";
 import type * as github from "../github.js";
 import type * as http from "../http.js";
+import type * as studio from "../studio.js";
 
 import type {
   ApiFromModules,
@@ -30,6 +31,7 @@ declare const fullApi: ApiFromModules<{
   "emails/welcome": typeof emails_welcome;
   github: typeof github;
   http: typeof http;
+  studio: typeof studio;
 }>;
 
 /**
