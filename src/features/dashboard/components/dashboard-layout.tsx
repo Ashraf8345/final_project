@@ -4,15 +4,19 @@ import * as React from "react";
 import { ThemeToggle } from "@/components/brand/theme-toggle";
 import { Logo } from "@/components/brand/logo";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import {
   Sidebar,
   SidebarSection,
   SidebarItem,
+  SidebarProvider,
+  useSidebar,
 } from "./sidebar";
 import { DashboardHeader } from "./dashboard-header";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
+  isFullWidth?: boolean;
 }
 
 // Side menu configuration
@@ -33,8 +37,8 @@ const coreLinks: SidebarLinkConfig[] = [
     ),
   },
   {
-    label: "Portfolio Builder",
-    href: "/builder",
+    label: "Devora Studio",
+    href: "/studio",
     icon: (
       <svg className="h-4 w-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -127,7 +131,10 @@ interface SidebarContentProps {
   setMobileOpen?: (open: boolean) => void;
 }
 
-function SidebarContent({ isCollapsed = false, setMobileOpen }: SidebarContentProps) {
+function SidebarContent({ isCollapsed: isCollapsedOverride, setMobileOpen }: SidebarContentProps) {
+  const { open } = useSidebar();
+  const isCollapsed = isCollapsedOverride !== undefined ? isCollapsedOverride : !open;
+
   const handleItemClick = () => {
     if (setMobileOpen) {
       setMobileOpen(false);
@@ -135,19 +142,17 @@ function SidebarContent({ isCollapsed = false, setMobileOpen }: SidebarContentPr
   };
 
   return (
-    <div className="flex flex-col h-full bg-zinc-50/50 dark:bg-zinc-950/40 text-foreground">
+    <div className="flex flex-col h-full bg-zinc-50 dark:bg-zinc-950 text-foreground">
       {/* Brand Header */}
-      <div className="flex h-16 items-center px-4 md:px-5 border-b border-border/40 gap-3">
-        <Logo href="/" />
-        {!isCollapsed && (
-          <span className="font-bold text-sm tracking-tight bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground/70 bg-clip-text text-transparent">
-            Devora
-          </span>
-        )}
+      <div className={cn(
+        "flex h-16 items-center border-b border-border/40 gap-3",
+        isCollapsed ? "justify-center px-2" : "px-4 md:px-5"
+      )}>
+        <Logo href="/" onlyMark={isCollapsed} />
       </div>
 
       {/* Nav List */}
-      <nav aria-label="Sidebar navigation" className="flex-1 overflow-y-auto py-4 space-y-1">
+      <nav aria-label="Sidebar navigation" className="flex-1 overflow-y-auto overflow-x-hidden py-4 space-y-1">
         <SidebarSection title="Core Features" isCollapsed={isCollapsed}>
           {coreLinks.map((item) => (
             <SidebarItem
@@ -189,64 +194,41 @@ function SidebarContent({ isCollapsed = false, setMobileOpen }: SidebarContentPr
       </nav>
 
       {/* Dev Environment & Theme Toggle */}
-      <div className="p-4 border-t border-border/40 flex items-center justify-between">
+      <div className={cn("border-t border-border/40 flex items-center justify-between", isCollapsed ? "p-2 justify-center" : "p-4")}>
         {!isCollapsed ? (
           <>
             <span className="text-2xs text-muted-foreground/60 font-semibold tracking-wider uppercase">
-              Dev Environment
+              Appearance
             </span>
             <ThemeToggle />
           </>
         ) : (
-          <div className="mx-auto">
-            <ThemeToggle />
-          </div>
+          <ThemeToggle />
         )}
       </div>
     </div>
   );
 }
 
-export function DashboardLayout({ children }: DashboardLayoutProps) {
+function DashboardLayoutContent({ children, isFullWidth }: { children: React.ReactNode; isFullWidth?: boolean }) {
+  const { open } = useSidebar();
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isCollapsed, setIsCollapsed] = React.useState(() => {
-    if (typeof window !== "undefined") {
-      const savedState = localStorage.getItem("devora_sidebar_collapsed");
-      return savedState === "true";
-    }
-    return false;
-  });
-
-  const handleToggleSidebar = () => {
-    setIsCollapsed((prev) => {
-      const next = !prev;
-      if (typeof window !== "undefined") {
-        localStorage.setItem("devora_sidebar_collapsed", String(next));
-      }
-      return next;
-    });
-  };
 
   return (
     <div className="flex min-h-screen bg-background text-foreground transition-all duration-300">
       {/* Desktop Sidebar (Left side panel) */}
-      <Sidebar
-        isCollapsed={isCollapsed}
-        className="hidden md:flex md:fixed md:inset-y-0 z-20"
-      >
-        <SidebarContent isCollapsed={isCollapsed} />
+      <Sidebar className="hidden md:flex md:fixed md:inset-y-0 z-20">
+        <SidebarContent />
       </Sidebar>
 
       {/* Main container offset by sidebar width */}
       <div
         className={`flex flex-col flex-1 transition-all duration-300 ease-in-out ${
-          isCollapsed ? "md:pl-16" : "md:pl-64"
+          !open ? "md:pl-16" : "md:pl-64"
         }`}
       >
         {/* Header */}
         <DashboardHeader
-          onToggleSidebar={handleToggleSidebar}
-          isSidebarCollapsed={isCollapsed}
           onOpenMobileMenu={() => setMobileOpen(true)}
         />
 
@@ -263,11 +245,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
         {/* Page Content */}
         <main
           id="main-content"
-          className="flex-1 px-4 py-8 sm:px-6 md:px-8 max-w-7xl mx-auto w-full"
+          className={`flex-1 px-4 py-8 sm:px-6 md:px-8 w-full ${
+            isFullWidth ? "max-w-none" : "max-w-7xl mx-auto"
+          }`}
         >
           {children}
         </main>
       </div>
     </div>
+  );
+}
+
+export function DashboardLayout({ children, isFullWidth = false }: DashboardLayoutProps) {
+  return (
+    <SidebarProvider>
+      <DashboardLayoutContent isFullWidth={isFullWidth}>
+        {children}
+      </DashboardLayoutContent>
+    </SidebarProvider>
   );
 }

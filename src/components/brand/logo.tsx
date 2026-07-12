@@ -1,4 +1,4 @@
-﻿import type { Route } from "next";
+import type { Route } from "next";
 import Link from "next/link";
 
 import { SparkIcon } from "@/components/brand/icons";
@@ -23,6 +23,7 @@ interface LogoProps {
   href?: string | null;
   size?: LogoSize;
   withTagline?: boolean;
+  onlyMark?: boolean;
 }
 
 export function Logo({
@@ -30,6 +31,7 @@ export function Logo({
   href = "/",
   size = "md",
   withTagline = false,
+  onlyMark = false,
 }: LogoProps) {
   const content = (
     <>
@@ -41,21 +43,23 @@ export function Logo({
       >
         <SparkIcon className="size-4.5" />
       </span>
-      <span className="flex min-w-0 flex-col">
-        <span
-          className={cn(
-            "font-heading font-semibold tracking-tight",
-            sizeClassNames[size],
-          )}
-        >
-          Devora
-        </span>
-        {withTagline ? (
-          <span className="text-xs text-muted-foreground">
-            Developer portfolio infrastructure
+      {!onlyMark && (
+        <span className="flex min-w-0 flex-col">
+          <span
+            className={cn(
+              "font-heading font-semibold tracking-tight",
+              sizeClassNames[size],
+            )}
+          >
+            Devora
           </span>
-        ) : null}
-      </span>
+          {withTagline ? (
+            <span className="text-xs text-muted-foreground">
+              Developer portfolio infrastructure
+            </span>
+          ) : null}
+        </span>
+      )}
     </>
   );
 

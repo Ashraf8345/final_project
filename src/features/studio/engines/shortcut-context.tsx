@@ -267,6 +267,7 @@ export function ShortcutProvider({ children }: { children: React.ReactNode }) {
     setHelpOpen((prev) => !prev);
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   useHotkey("Shift+?" as any, (e) => {
     e.preventDefault();
     setHelpOpen((prev) => !prev);
@@ -358,6 +359,10 @@ function ShortcutHelpDialog({
   );
 }
 
+function generateRandomBlockId(type: string): string {
+  return `blk-${type}-${Math.random().toString(36).substr(2, 9)}`;
+}
+
 // ----------------------------------------------------
 // COMMAND PALETTE DIALOG COMPONENT
 // ----------------------------------------------------
@@ -380,8 +385,9 @@ function CommandPaletteDialog({
     else if (type === "projects") targetSectionId = "sec-projects";
     else if (type === "contact") targetSectionId = "sec-contact";
 
+    const newBlockId = generateRandomBlockId(type);
     const newBlock: StudioBlock = {
-      id: `blk-${type}-${Math.random().toString(36).substr(2, 9)}`,
+      id: newBlockId,
       sectionId: targetSectionId,
       type,
       content: { ...blockDef.defaultProps },

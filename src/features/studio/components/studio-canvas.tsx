@@ -272,14 +272,18 @@ function SortableBlockItem({
       }}
       onMouseEnter={() => hoverBlock(block.id)}
       onMouseLeave={() => hoverBlock(null)}
-      className={`relative transition-all rounded-xl ${
-        isSelected
-          ? "ring-2 ring-brand dark:ring-brand z-10 shadow-[0_0_0_1px_rgba(255,255,255,0.15)]"
-          : isHovered
-            ? "ring-1 ring-dashed ring-brand/40"
-            : "hover:bg-zinc-50/10"
-      }`}
+      className={cn(
+        "relative transition-all rounded-xl",
+        isSelected ? "z-10" : "hover:bg-zinc-50/5"
+      )}
     >
+      {/* Selection outline overlay */}
+      {isSelected && (
+        <div className="absolute inset-0 border-2 border-brand rounded-xl pointer-events-none z-10 shadow-[0_0_0_1px_rgba(255,255,255,0.15)]" />
+      )}
+      {isHovered && !isSelected && (
+        <div className="absolute inset-0 border border-dashed border-brand/50 rounded-xl pointer-events-none z-10" />
+      )}
       {/* Selection handle overlays */}
       {isSelected && (
         <div className="absolute -top-9.5 left-2 bg-brand text-brand-foreground text-xs font-bold px-2.5 py-1 rounded-md flex items-center gap-2 shadow-md z-20 select-none animate-in fade-in duration-100">
@@ -342,18 +346,56 @@ function SortableBlockItem({
       )}
 
       {/* Block style overrides wrapper */}
-      <div
-        className="p-3 rounded-xl border border-transparent"
-        style={{
-          paddingTop: `${((block.style.paddingTop as any)?.[device] ?? 8) * 4}px`,
-          paddingBottom: `${((block.style.paddingBottom as any)?.[device] ?? 8) * 4}px`,
-          textAlign: (block.style.textAlign as any)?.[device] || "left",
-        }}
-      >
-        <AnimatedBlockWrapper block={block}>
-          <Renderer block={block} isSelected={isSelected} />
-        </AnimatedBlockWrapper>
-      </div>
+      {(() => {
+        const styleVal = block.style || {};
+        const currentBg = (styleVal.backgroundColor as any)?.[device] || "transparent";
+        const currentBorderColor = (styleVal.borderColor as any)?.[device] || "";
+        const currentBorderWidth = (styleVal.borderWidth as any)?.[device] ?? 0;
+        const currentBorderRadius = (styleVal.borderRadius as any)?.[device] || "rounded-none";
+        const currentBoxShadow = (styleVal.boxShadow as any)?.[device] || "shadow-none";
+        const currentMaxWidth = (styleVal.maxWidth as any)?.[device] || "max-w-none";
+
+        const currentPreset = (styleVal.animationPreset as any)?.[device] || "none";
+        const currentDuration = (styleVal.animationDuration as any)?.[device] ?? 500;
+        const currentDelay = (styleVal.animationDelay as any)?.[device] ?? 0;
+        const currentEasing = (styleVal.animationEasing as any)?.[device] || "ease-out";
+        const currentTrigger = (styleVal.animationTrigger as any)?.[device] || "viewport";
+
+        const isBgClass = currentBg.startsWith("bg-");
+        const isBorderColorClass = currentBorderColor.startsWith("border-");
+
+        const wrapperStyle: React.CSSProperties = {
+          paddingTop: `${((styleVal.paddingTop as any)?.[device] ?? 8) * 4}px`,
+          paddingBottom: `${((styleVal.paddingBottom as any)?.[device] ?? 8) * 4}px`,
+          textAlign: (styleVal.textAlign as any)?.[device] || "left",
+          borderWidth: `${currentBorderWidth}px`,
+          borderStyle: currentBorderWidth > 0 ? "solid" : "none",
+          backgroundColor: isBgClass ? undefined : currentBg,
+          borderColor: isBorderColorClass ? undefined : currentBorderColor,
+        };
+
+        return (
+          <div
+            className={cn(
+              "p-4 transition-all w-full mx-auto border",
+              currentBorderRadius,
+              currentBoxShadow,
+              currentMaxWidth,
+              isBgClass ? currentBg : "",
+              isBorderColorClass ? currentBorderColor : "border-border/40"
+            )}
+            style={wrapperStyle}
+          >
+            <AnimatedBlockWrapper
+              key={`${block.id}-${currentPreset}-${currentDuration}-${currentDelay}-${currentEasing}-${currentTrigger}`}
+              block={block}
+              device={device}
+            >
+              <Renderer block={block} isSelected={isSelected} />
+            </AnimatedBlockWrapper>
+          </div>
+        );
+      })()}
     </div>
   );
 }

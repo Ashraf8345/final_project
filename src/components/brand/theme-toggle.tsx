@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useTheme } from "next-themes";
 
@@ -35,10 +35,7 @@ export function ThemeToggle() {
     <DropdownMenu>
       <DropdownMenuTrigger
         aria-label="Change theme"
-        className={cn(
-          buttonVariants({ variant: "outline", size: "icon-sm" }),
-          "relative rounded-full border-border/70 bg-background/80 backdrop-blur",
-        )}
+        className="relative size-8 rounded-full border border-border/40 bg-zinc-50/50 hover:bg-zinc-100 dark:bg-zinc-950/50 dark:hover:bg-zinc-900 text-muted-foreground hover:text-foreground flex items-center justify-center transition-all cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <span className="sr-only">Change theme</span>
         <SunIcon className="size-4 rotate-0 scale-100 transition-transform dark:-rotate-90 dark:scale-0" />

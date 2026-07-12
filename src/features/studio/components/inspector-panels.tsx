@@ -243,6 +243,18 @@ export function ColorsPanel() {
         </div>
       </div>
 
+      {/* Custom Background color hex/accent input */}
+      <div className="space-y-1">
+        <label className="text-2xs text-muted-foreground">Custom Background (Hex / class)</label>
+        <input
+          type="text"
+          value={colorPresets.some(p => p.value === currentBg) ? "" : currentBg}
+          onChange={(e) => runCommand(new UpdateStyleCommand(selectedBlock.id, "backgroundColor", e.target.value, device))}
+          placeholder="#ffffff or bg-zinc-900"
+          className="w-full h-8 text-xs rounded-md border border-border/40 bg-background text-foreground px-2 outline-none focus:border-brand/60 font-mono"
+        />
+      </div>
+
       {/* Border Color hex input */}
       <div className="space-y-1 pt-1">
         <label className="text-2xs text-muted-foreground">Border Color (Hex / Accent)</label>
@@ -251,6 +263,18 @@ export function ColorsPanel() {
           value={customBorderColor}
           onChange={(e) => runCommand(new UpdateStyleCommand(selectedBlock.id, "borderColor", e.target.value, device))}
           placeholder="#e4e4e7 or border-brand"
+          className="w-full h-8 text-xs rounded-md border border-border/40 bg-background text-foreground px-2 outline-none focus:border-brand/60 font-mono"
+        />
+      </div>
+
+      {/* Text Color hex input */}
+      <div className="space-y-1 pt-1">
+        <label className="text-2xs text-muted-foreground">Text Color (Hex / Accent)</label>
+        <input
+          type="text"
+          value={(selectedBlock.style.color as any)?.[device] || ""}
+          onChange={(e) => runCommand(new UpdateStyleCommand(selectedBlock.id, "color", e.target.value, device))}
+          placeholder="#ffffff or text-zinc-100"
           className="w-full h-8 text-xs rounded-md border border-border/40 bg-background text-foreground px-2 outline-none focus:border-brand/60 font-mono"
         />
       </div>

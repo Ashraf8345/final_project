@@ -51,9 +51,28 @@ export function InlineText({
   as?: React.ElementType;
   placeholder?: string;
 }) {
-  const { runCommand } = useStudio();
+  const { runCommand, state } = useStudio();
   const elementRef = React.useRef<HTMLSpanElement>(null);
   const [isEmpty, setIsEmpty] = React.useState(!value);
+
+  const block = state?.blocks.find((b) => b.id === blockId);
+  const device = state?.preferences.device || "desktop";
+  const customColor = block ? (block.style.color as any)?.[device] : undefined;
+
+  const hasCustomColor = !!customColor;
+  const isTextColorClass = customColor?.startsWith("text-");
+
+  const cleanedClass = className
+    ? className
+        .split(" ")
+        .filter((cls) => !hasCustomColor || !cls.startsWith("text-"))
+        .join(" ")
+    : "";
+
+  const finalStyle: React.CSSProperties = {};
+  if (hasCustomColor && !isTextColorClass) {
+    finalStyle.color = customColor;
+  }
 
   // Synchronize initial value from props to ref when value changes (e.g. undo/redo)
   React.useEffect(() => {
@@ -91,9 +110,10 @@ export function InlineText({
       onBlur={handleBlur}
       onKeyDown={handleKeyDown}
       onInput={handleInput}
+      style={finalStyle}
       className={`outline-none focus:ring-2 focus:ring-brand/40 rounded-md px-1 transition-all ${
-        isEmpty ? "text-muted-foreground/60 italic" : ""
-      } ${className}`}
+        isEmpty && !hasCustomColor ? "text-muted-foreground/60 italic" : isEmpty ? "italic opacity-60" : ""
+      } ${cleanedClass} ${hasCustomColor && isTextColorClass ? customColor : ""}`}
       data-placeholder={placeholder}
     />
   );
@@ -147,8 +167,15 @@ export function HeroCanvasBlock({ block, isSelected }: { block: StudioBlock; isS
     }
   };
 
+  const device = useStudio().state.preferences.device;
+  const align = (block.style.textAlign as any)?.[device] || "left";
+  const alignClass = 
+    align === "center" ? "items-center text-center" :
+    align === "right" ? "items-end text-right" :
+    "items-start text-left";
+
   return (
-    <div className="flex flex-col items-center justify-center text-center space-y-4 py-8">
+    <div className={`flex flex-col justify-center space-y-4 py-8 w-full ${alignClass}`}>
       <div
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
@@ -239,8 +266,15 @@ export function HeroCanvasBlock({ block, isSelected }: { block: StudioBlock; isS
 // ABOUT BLOCK RENDERER
 export function AboutCanvasBlock({ block, isSelected }: { block: StudioBlock; isSelected: boolean }) {
   const content = block.content as any;
+  const device = useStudio().state.preferences.device;
+  const align = (block.style.textAlign as any)?.[device] || "left";
+  const alignClass = 
+    align === "center" ? "items-center text-center" :
+    align === "right" ? "items-end text-right" :
+    "items-start text-left";
+
   return (
-    <div className="space-y-3 py-6">
+    <div className={`space-y-3 py-6 flex flex-col w-full ${alignClass}`}>
       <InlineText
         value={content.title || "About Me"}
         blockId={block.id}
@@ -269,8 +303,15 @@ export function SkillsCanvasBlock({ block, isSelected }: { block: StudioBlock; i
   const devops = (content.devops as string[]) || [];
   const { runCommand } = useStudio();
 
+  const device = useStudio().state.preferences.device;
+  const align = (block.style.textAlign as any)?.[device] || "left";
+  const alignClass = 
+    align === "center" ? "items-center text-center" :
+    align === "right" ? "items-end text-right" :
+    "items-start text-left";
+
   return (
-    <div className="space-y-4 py-6">
+    <div className={`space-y-4 py-6 flex flex-col w-full ${alignClass}`}>
       <InlineText
         value={content.title || "Skills"}
         blockId={block.id}
@@ -423,8 +464,15 @@ export function ProjectsCanvasBlock({ block, isSelected }: { block: StudioBlock;
     return projectIds.map((id) => map.get(Number(id))).filter(Boolean) as any[];
   }, [repos, projectIds]);
 
+  const device = useStudio().state.preferences.device;
+  const align = (block.style.textAlign as any)?.[device] || "left";
+  const alignClass = 
+    align === "center" ? "items-center text-center" :
+    align === "right" ? "items-end text-right" :
+    "items-start text-left";
+
   return (
-    <div className="space-y-4 py-6">
+    <div className={`space-y-4 py-6 flex flex-col w-full ${alignClass}`}>
       <InlineText
         value={content.title || "Projects"}
         blockId={block.id}
@@ -508,8 +556,15 @@ export function ContactCanvasBlock({ block, isSelected }: { block: StudioBlock; 
   const email = content.email || "";
   const github = content.githubUrl || "";
 
+  const device = useStudio().state.preferences.device;
+  const align = (block.style.textAlign as any)?.[device] || "left";
+  const alignClass = 
+    align === "center" ? "items-center text-center" :
+    align === "right" ? "items-end text-right" :
+    "items-start text-left";
+
   return (
-    <div className="space-y-4 py-8 border-t border-border/20 mt-8 text-center flex flex-col items-center">
+    <div className={`space-y-4 py-8 border-t border-border/20 mt-8 flex flex-col w-full ${alignClass}`}>
       <InlineText
         value={content.title || "Get in Touch"}
         blockId={block.id}
@@ -560,16 +615,18 @@ export function AnimatedBlockWrapper({
   block,
   children,
   className = "",
+  device = "desktop",
 }: {
   block: StudioBlock;
   children: React.ReactNode;
   className?: string;
+  device?: string;
 }) {
-  const preset = block.style.animationPreset?.desktop || "none";
-  const duration = block.style.animationDuration?.desktop ?? 500;
-  const delay = block.style.animationDelay?.desktop ?? 0;
-  const easing = block.style.animationEasing?.desktop || "ease-out";
-  const trigger = block.style.animationTrigger?.desktop || "viewport";
+  const preset = (block.style.animationPreset as any)?.[device] || "none";
+  const duration = (block.style.animationDuration as any)?.[device] ?? 500;
+  const delay = (block.style.animationDelay as any)?.[device] ?? 0;
+  const easing = (block.style.animationEasing as any)?.[device] || "ease-out";
+  const trigger = (block.style.animationTrigger as any)?.[device] || "viewport";
 
   // State to track if visible in viewport
   const [inView, setInView] = React.useState(false);
