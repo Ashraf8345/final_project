@@ -2,8 +2,8 @@
 
 import * as React from "react";
 import { useQuery, useAction } from "convex/react";
-import { api } from "../../../convex/_generated/api";
-import { DashboardLayout } from "@/features/dashboard/components/dashboard-layout";
+import { api } from "../../../../convex/_generated/api";
+
 import { GitHubProfileCard } from "@/features/github/components/github-profile-card";
 import { SyncStatusCard } from "@/features/github/components/sync-status-card";
 import { LanguageChart } from "@/features/github/components/language-chart";
@@ -31,7 +31,7 @@ export default function GitHubPage() {
   const languages = React.useMemo(() => {
     if (!repositories) return [];
     const langs = new Set<string>();
-    repositories.forEach((repo) => {
+    repositories.forEach((repo: { primaryLanguage?: string | null; isHidden?: boolean }) => {
       if (repo.primaryLanguage && !repo.isHidden) {
         langs.add(repo.primaryLanguage);
       }
@@ -85,8 +85,7 @@ export default function GitHubPage() {
   const isLoading = profile === undefined || syncStatus === undefined || repositories === undefined;
 
   return (
-    <DashboardLayout>
-      <div className="space-y-6">
+    <div className="space-y-6">
         {/* Header Title */}
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>
@@ -189,6 +188,5 @@ export default function GitHubPage() {
           </div>
         )}
       </div>
-    </DashboardLayout>
   );
 }
