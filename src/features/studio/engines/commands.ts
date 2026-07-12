@@ -462,3 +462,41 @@ export class ReorderBlocksCommand implements Command {
   }
 }
 
+// 11. REORDER SECTIONS COMMAND
+export class ReorderSectionsCommand implements Command {
+  id = Math.random().toString(36).substr(2, 9);
+  label = "Reorder Sections";
+  private prevSections: any[] = [];
+
+  constructor(
+    private activeId: string,
+    private overId: string
+  ) {}
+
+  execute(state: StudioState): StudioState {
+    const nextState = deepCloneState(state);
+    this.prevSections = JSON.parse(JSON.stringify(state.sections));
+
+    const activeIndex = nextState.sections.findIndex((s) => s.id === this.activeId);
+    const overIndex = nextState.sections.findIndex((s) => s.id === this.overId);
+
+    if (activeIndex !== -1 && overIndex !== -1) {
+      const [removed] = nextState.sections.splice(activeIndex, 1);
+      nextState.sections.splice(overIndex, 0, removed);
+
+      // Re-assign order parameters based on index
+      nextState.sections.forEach((section, idx) => {
+        section.order = idx;
+      });
+    }
+
+    return nextState;
+  }
+
+  undo(state: StudioState): StudioState {
+    const nextState = deepCloneState(state);
+    nextState.sections = this.prevSections;
+    return nextState;
+  }
+}
+

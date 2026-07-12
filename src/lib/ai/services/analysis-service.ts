@@ -1,5 +1,5 @@
 import { generateText, Output } from "ai";
-import { DEFAULT_AI_MODEL, COMPLEX_AI_MODEL } from "../models";
+import { AIRegistry } from "../registry";
 import { repositoryAnalysisSchema } from "../schemas/repository-analysis";
 import { skillsOverviewSchema } from "../schemas/skills-overview";
 import { careerSummarySchema } from "../schemas/career-summary";
@@ -16,7 +16,8 @@ export class AnalysisService {
   static async analyzeRepository(repo: RepositoryInput) {
     const { system, prompt } = getRepositoryAnalysisPrompt(repo);
     const result = await generateText({
-      model: DEFAULT_AI_MODEL,
+      model: AIRegistry.getModel("githubAnalysis"),
+      temperature: AIRegistry.getTaskConfig("githubAnalysis").temperature,
       system,
       prompt,
       output: Output.object({
@@ -32,7 +33,8 @@ export class AnalysisService {
   static async generateCareerSummary(profile: ProfileInput, repos: AnalyzedRepoInput[]) {
     const { system, prompt } = getCareerSummaryPrompt(profile, repos);
     const result = await generateText({
-      model: COMPLEX_AI_MODEL,
+      model: AIRegistry.getModel("portfolioGeneration"),
+      temperature: AIRegistry.getTaskConfig("portfolioGeneration").temperature,
       system,
       prompt,
       output: Output.object({
@@ -48,7 +50,8 @@ export class AnalysisService {
   static async generateSkillsOverview(repos: RawSkillInput[]) {
     const { system, prompt } = getSkillsOverviewPrompt(repos);
     const result = await generateText({
-      model: DEFAULT_AI_MODEL,
+      model: AIRegistry.getModel("githubAnalysis"),
+      temperature: AIRegistry.getTaskConfig("githubAnalysis").temperature,
       system,
       prompt,
       output: Output.object({
@@ -67,7 +70,8 @@ export class AnalysisService {
   ) {
     const { system, prompt } = getRecommendationsPrompt(repos, skills);
     const result = await generateText({
-      model: COMPLEX_AI_MODEL,
+      model: AIRegistry.getModel("portfolioReview"),
+      temperature: AIRegistry.getTaskConfig("portfolioReview").temperature,
       system,
       prompt,
       output: Output.object({
@@ -75,5 +79,18 @@ export class AnalysisService {
       }),
     });
     return result.output;
+  }
+
+  /**
+   * General purpose editor block text rewrite using selected rewrite model.
+   */
+  static async processPrompt(inputText: string, promptTemplate: string) {
+    const result = await generateText({
+      model: AIRegistry.getModel("rewrite"),
+      temperature: AIRegistry.getTaskConfig("rewrite").temperature,
+      system: "You are an expert technical editor. Refine the provided text according to the user request. Keep your output concise. Return ONLY the requested text, without quote wrappers or conversational commentary.",
+      prompt: `${promptTemplate}\n\nInput text to refine:\n${inputText}`,
+    });
+    return result.text;
   }
 }

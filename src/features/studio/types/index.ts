@@ -28,6 +28,7 @@ export interface BlockStyle {
   lineHeight?: ResponsiveValue<string>;
   letterSpacing?: ResponsiveValue<string>;
   textColor?: ResponsiveValue<string>;
+  color?: ResponsiveValue<string>;
   backgroundColor?: ResponsiveValue<string>;
   borderRadius?: ResponsiveValue<string>;
   boxShadow?: ResponsiveValue<string>;

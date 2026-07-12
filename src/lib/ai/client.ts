@@ -1,10 +1,11 @@
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
+import { createOpenAI } from "@ai-sdk/openai";
 
-// Access environment variables directly to prevent importing Next.js T3 Env into Convex server functions
+// Access GITHUB_API_KEY directly to prevent importing Next.js T3 Env into Convex server functions
 const apiKey = typeof process !== "undefined"
-  ? process.env.GOOGLE_API_KEY
+  ? process.env.GITHUB_API_KEY
   : undefined;
 
-export const google = createGoogleGenerativeAI({
+export const github = createOpenAI({
+  baseURL: "https://models.github.ai/inference",
   apiKey: apiKey || "",
 });
