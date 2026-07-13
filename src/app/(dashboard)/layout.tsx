@@ -1,4 +1,7 @@
+"use client";
+
 import * as React from "react";
+import { usePathname } from "next/navigation";
 import { DashboardLayout } from "@/features/dashboard/components/dashboard-layout";
 
 interface LayoutProps {
@@ -6,5 +9,8 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  const pathname = usePathname();
+  const isStudio = pathname === "/studio";
+
+  return <DashboardLayout isFullWidth={isStudio}>{children}</DashboardLayout>;
 }

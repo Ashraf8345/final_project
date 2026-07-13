@@ -144,4 +144,74 @@ export default defineSchema({
     error: v.union(v.string(), v.null()),
     updatedAt: v.number(),
   }).index("by_userId", ["userId"]),
+
+  studios: defineTable({
+    userId: v.string(),
+    name: v.string(),
+    type: v.string(), // e.g. "portfolio"
+    themeId: v.union(v.string(), v.null()),
+    preferences: v.any(), // editor preferences
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  }).index("by_userId", ["userId"]),
+
+  studioSections: defineTable({
+    studioId: v.string(),
+    userId: v.string(),
+    name: v.string(),
+    order: v.number(),
+    isVisible: v.boolean(),
+    isPinned: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_studioId", ["studioId"])
+    .index("by_userId", ["userId"]),
+
+  studioBlocks: defineTable({
+    studioId: v.string(),
+    userId: v.string(),
+    sectionId: v.string(),
+    type: v.string(),
+    content: v.any(),
+    style: v.any(), // responsive layout styles
+    order: v.number(),
+    isVisible: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_studioId", ["studioId"])
+    .index("by_sectionId", ["sectionId"])
+    .index("by_userId", ["userId"]),
+
+  studioDrafts: defineTable({
+    studioId: v.string(),
+    userId: v.string(),
+    stateJson: v.string(),
+    updatedAt: v.number(),
+  })
+    .index("by_studioId", ["studioId"])
+    .index("by_userId", ["userId"]),
+
+  studioVersions: defineTable({
+    studioId: v.string(),
+    userId: v.string(),
+    versionNumber: v.number(),
+    snapshotJson: v.string(),
+    commitMessage: v.string(),
+    createdAt: v.number(),
+  })
+    .index("by_studioId", ["studioId"])
+    .index("by_userId", ["userId"]),
+
+  themes: defineTable({
+    studioId: v.string(),
+    userId: v.string(),
+    presetName: v.string(),
+    accentColor: v.string(),
+    fontFamily: v.string(),
+    spacing: v.number(),
+    isDark: v.boolean(),
+    updatedAt: v.number(),
+  })
+    .index("by_studioId", ["studioId"])
+    .index("by_userId", ["userId"]),
 });

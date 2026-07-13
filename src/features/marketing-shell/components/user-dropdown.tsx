@@ -85,7 +85,7 @@ export function UserDropdown() {
           <Link href={"/dashboard" as Route}>Dashboard</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer text-sm">
-          <Link href={"/builder" as Route}>Portfolio Builder</Link>
+          <Link href={"/studio" as Route}>Devora Studio</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild className="cursor-pointer text-sm">
           <Link href={"/settings" as Route}>Settings</Link>

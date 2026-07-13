@@ -1,5 +1,5 @@
-import { generateObject } from "ai";
-import { DEFAULT_AI_MODEL, COMPLEX_AI_MODEL } from "../models";
+import { generateText, Output } from "ai";
+import { AIRegistry } from "../registry";
 import { repositoryAnalysisSchema } from "../schemas/repository-analysis";
 import { skillsOverviewSchema } from "../schemas/skills-overview";
 import { careerSummarySchema } from "../schemas/career-summary";
@@ -15,13 +15,16 @@ export class AnalysisService {
    */
   static async analyzeRepository(repo: RepositoryInput) {
     const { system, prompt } = getRepositoryAnalysisPrompt(repo);
-    const result = await generateObject({
-      model: DEFAULT_AI_MODEL,
-      schema: repositoryAnalysisSchema,
+    const result = await generateText({
+      model: AIRegistry.getModel("githubAnalysis"),
+      temperature: AIRegistry.getTaskConfig("githubAnalysis").temperature,
       system,
       prompt,
+      output: Output.object({
+        schema: repositoryAnalysisSchema,
+      }),
     });
-    return result.object;
+    return result.output;
   }
 
   /**
@@ -29,13 +32,16 @@ export class AnalysisService {
    */
   static async generateCareerSummary(profile: ProfileInput, repos: AnalyzedRepoInput[]) {
     const { system, prompt } = getCareerSummaryPrompt(profile, repos);
-    const result = await generateObject({
-      model: COMPLEX_AI_MODEL,
-      schema: careerSummarySchema,
+    const result = await generateText({
+      model: AIRegistry.getModel("portfolioGeneration"),
+      temperature: AIRegistry.getTaskConfig("portfolioGeneration").temperature,
       system,
       prompt,
+      output: Output.object({
+        schema: careerSummarySchema,
+      }),
     });
-    return result.object;
+    return result.output;
   }
 
   /**
@@ -43,13 +49,16 @@ export class AnalysisService {
    */
   static async generateSkillsOverview(repos: RawSkillInput[]) {
     const { system, prompt } = getSkillsOverviewPrompt(repos);
-    const result = await generateObject({
-      model: DEFAULT_AI_MODEL,
-      schema: skillsOverviewSchema,
+    const result = await generateText({
+      model: AIRegistry.getModel("githubAnalysis"),
+      temperature: AIRegistry.getTaskConfig("githubAnalysis").temperature,
       system,
       prompt,
+      output: Output.object({
+        schema: skillsOverviewSchema,
+      }),
     });
-    return result.object;
+    return result.output;
   }
 
   /**
@@ -60,12 +69,28 @@ export class AnalysisService {
     skills: { frontend: string[]; backend: string[]; DevOps: string[] }
   ) {
     const { system, prompt } = getRecommendationsPrompt(repos, skills);
-    const result = await generateObject({
-      model: COMPLEX_AI_MODEL,
-      schema: recommendationsSchema,
+    const result = await generateText({
+      model: AIRegistry.getModel("portfolioReview"),
+      temperature: AIRegistry.getTaskConfig("portfolioReview").temperature,
       system,
       prompt,
+      output: Output.object({
+        schema: recommendationsSchema,
+      }),
     });
-    return result.object;
+    return result.output;
+  }
+
+  /**
+   * General purpose editor block text rewrite using selected rewrite model.
+   */
+  static async processPrompt(inputText: string, promptTemplate: string) {
+    const result = await generateText({
+      model: AIRegistry.getModel("rewrite"),
+      temperature: AIRegistry.getTaskConfig("rewrite").temperature,
+      system: "You are an expert technical editor. Refine the provided text according to the user request. Keep your output concise. Return ONLY the requested text, without quote wrappers or conversational commentary.",
+      prompt: `${promptTemplate}\n\nInput text to refine:\n${inputText}`,
+    });
+    return result.text;
   }
 }

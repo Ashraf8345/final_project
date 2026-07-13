@@ -6,16 +6,13 @@ import { usePathname } from "next/navigation";
 import type { Route } from "next";
 import { UserDropdown } from "@/features/marketing-shell/components/user-dropdown";
 import { Button } from "@/components/ui/button";
+import { SidebarTrigger } from "./sidebar";
 
 interface DashboardHeaderProps {
-  onToggleSidebar?: () => void;
-  isSidebarCollapsed?: boolean;
   onOpenMobileMenu?: () => void;
 }
 
 export function DashboardHeader({
-  onToggleSidebar,
-  isSidebarCollapsed,
   onOpenMobileMenu,
 }: DashboardHeaderProps) {
   return (
@@ -42,30 +39,8 @@ export function DashboardHeader({
           </Button>
         )}
 
-        {/* Sidebar Collapse Toggle (hidden on mobile) */}
-        {onToggleSidebar && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hidden md:flex border border-border/40 rounded-lg h-9 w-9 p-0 text-muted-foreground hover:text-foreground"
-            onClick={onToggleSidebar}
-            aria-label={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-          >
-            <svg
-              className="h-4 w-4"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              {isSidebarCollapsed ? (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7M19 19l-7-7 7-7" />
-              )}
-            </svg>
-          </Button>
-        )}
+        {/* Sidebar Collapse Toggle Trigger */}
+        <SidebarTrigger className="hidden md:flex" />
 
         {/* Breadcrumbs */}
         <Breadcrumbs />
@@ -131,8 +106,8 @@ export function Breadcrumbs() {
     switch (segment) {
       case "dashboard":
         return "Overview";
-      case "builder":
-        return "Portfolio Builder";
+      case "studio":
+        return "Devora Studio";
       case "resume":
         return "Resume Builder";
       case "cover-letters":

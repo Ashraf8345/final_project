@@ -540,3 +540,17 @@ export const startAnalysis = action({
     }
   },
 });
+
+export const processPrompt = action({
+  args: {
+    inputText: v.string(),
+    promptTemplate: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+
+    const outputText = await AnalysisService.processPrompt(args.inputText, args.promptTemplate);
+    return { outputText };
+  },
+});

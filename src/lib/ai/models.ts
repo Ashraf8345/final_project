@@ -1,7 +1,7 @@
-import { google } from "./client";
+import { github } from "./client";
 
-// Primary model for structured outputs and analysis
-export const DEFAULT_AI_MODEL = google("gemini-2.0-flash");
+// Mapped to GitHub Models gpt-4o-mini
+export const DEFAULT_AI_MODEL = github("gpt-4o-mini");
 
-// High-capacity model if complex reasoning or long contexts are needed (falls back to DEFAULT_AI_MODEL for now)
-export const COMPLEX_AI_MODEL = google("gemini-2.0-flash");
+// Mapped to GitHub Models gpt-4o
+export const COMPLEX_AI_MODEL = github("gpt-4o");
